@@ -1,0 +1,32 @@
+MUST
+-gioco macchine a scorrimento a punteggio
+-Bonus che ti fanno aumentare punteggio
+-malus es scontri con altre macchine , ostacoli etc etc che diminuiscono pti
+-superati certi threshold di punteggio passi al lv successivo più difficile
+-scendendo di punteggio torni ai lv precedenti
+- menu di gioco
+
+Concept aggiuntivi obbligatori
+
+-visuale da dietro mappa dritta con prospettiva ed elementi procedurali per impressione movimento e abbellimento
+-ostacoli : altre macchine perdo pti
+-bonus : uno e aumenta punteggio
+- punteggio : aumenta con bonus e con lo scorrere del tempo
+- contatore pti e lv a schermo 
+- stando fuori strada si perde punti man mano che passa il tempo
+
+
+concept opzionali
+
+- cielo stellato con stelle che si alternano
+- contachilometri con distanza percorsa e velocità istantanea
+- nei malus aggiungiamo macchine diverse che sparano/proiettili testuali diversi a seconda del tipo di macchina
+  la probabilità di trovare "nemici" più difficili è proporzionale al livello
+- salvare punteggi migliori , in caso di nuovo record dare feedback a schermo
+- feedback a schermo di essere fuori strada
+- Bonus speciali "limitati" con effetti specifici, a schermo achievement di ogni tipo raccolto dall'inizio, 
+  quando tutti i tipi sono stati raccolti moltiplicatore pti
+- eventualmente schermo "preview" del prossimo nemico 
+- malus che disturba la visuale simile graficamente a bonus
+- scelta username 
+- scelta a menu colore macchina
