@@ -82,4 +82,12 @@ void Car::moveRight(Map *map) { //muove macchiana destra
         xRightLW += 12;
         xRightWR += 12;
     }
+    
+    bool Car::outOfRoad() {
+    if((xLeftLW==0)||(xRightLW==114)){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
