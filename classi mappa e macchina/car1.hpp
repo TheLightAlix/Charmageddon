@@ -1,17 +1,26 @@
+//
+// Created by Lorenzo on 26/01/2021.
+//
 #include "map.hpp"
+#ifndef NOMEPROGETTO_CAR1_HPP
+#define NOMEPROGETTO_CAR1_HPP
 
-class car1 {
+class Car {
 protected:
-    int x1;
-    int y1;
-    int x2;
-    int y2;
+    int xLeftWR;
+    int xRightWR;
+    int yWheels;
+    int xLeftLW;
+    int xRightLW;
+    int yRoof;
+    //le x si riferiscono alla parte più esterna dell'oggetto
 public:
-    car1();
-    void appear(map *);
-    void disappear(map *);
-    void moveleft(map *);
-    void moveright(map *);
+    Car();
+    void appear(Map *);
+    void disappear(Map *);
+    void moveLeft(Map *);
+    void moveRight(Map *);
 };
 
 
+#endif //NOMEPROGETTO_CAR1_HPP
