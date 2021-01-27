@@ -32,7 +32,7 @@ void Car::appear(Map *map) {
     map->print();
 }
 
-void Car::disappear(Map *map) {
+void Car::disappear(Map *map) { //cancella la macchina
     for(int i=xLeftWR;i<=xRightWR;i++){
         map->set(' ',i,yWheels);
         map->set(' ',i,yRoof);
@@ -43,7 +43,7 @@ void Car::disappear(Map *map) {
     }
 }
 
-void Car::moveLeft(Map *map) {
+void Car::moveLeft(Map *map) { //muove la macchina a sinistra
     Car::disappear(map);
     if((xLeftLW==0)||(xLeftLW==15)){
         //in entrambi i casi si deve muovere nella posizione ad estrema sx.
@@ -63,14 +63,15 @@ void Car::moveLeft(Map *map) {
         xRightWR-=12;
     }
 }
-void Car::moveRight(Map *map) {
+void Car::moveRight(Map *map) { //muove macchiana destra
     Car::disappear(map);
     if ((xRightLW == 99) || (xRightLW == 114)) {
+        //in entrambi i casi si deve muovere nella posizione ad estrema dx
         xLeftLW = 102;
         xLeftWR = 103;
         xRightLW = 114;
         xRightWR = 113;
-    } else if (xLeftLW == 0) {
+    } else if (xLeftLW == 0) { //posizione ad estrema sinistra
         xLeftLW = 15;
         xLeftWR = 16;
         xRightLW = 27;
