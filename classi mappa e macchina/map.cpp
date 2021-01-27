@@ -1,6 +1,9 @@
+//
+// Created by Lorenzo on 26/01/2021.
+//
 #include "map.hpp"
 
-map::map() { //crea la strada del gioco.
+Map::Map() { //crea la strada del gioco.
     for(int j=0;j<21;j++){
         for(int i=0;i<116;i++){
             if (i==115){
@@ -24,14 +27,14 @@ map::map() { //crea la strada del gioco.
     }
 }
 
-void map::print() { //stampa riga per riga tutti i caratteri della matrice
-        for (int j = 0; j < 21; j++) {
-            for (int i = 0; i < 116; i++) {
-                cout << matrix[i][j];
-            }
+void Map::print() { //stampa riga per riga tutti i caratteri della matrice
+    for (int j = 0; j < 21; j++) {
+        for (int i = 0; i < 116; i++) {
+            cout << matrix[i][j];
         }
+    }
 }
 
-void map::set(char carattere, int coordx, int coordy) { //si può immettere nella matrice un carattere nella posizione desiderata
+void Map::set(char carattere, int coordx, int coordy) { //si può immettere nella matrice un carattere nella posizione desiderata
     matrix[coordx][coordy]=carattere;
 }
