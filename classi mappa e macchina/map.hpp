@@ -14,8 +14,6 @@ public:
     Map();
     void print();
     void set(char, int, int);
-    void defGrass(int, int);
-    void createLineGrass(int);
 };
 
 #endif //NOMEPROGETTO_MAP_HPP
