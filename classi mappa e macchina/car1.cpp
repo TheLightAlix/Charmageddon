@@ -1,63 +1,84 @@
 //
-// Created by Andrea Tozzi on 30/01/2020.
+// Created by Lorenzo on 26/01/2021.
 //
-
 #include "car1.hpp"
+Car::Car(){
+    xLeftWR=52;
+    xRightWR=62;
+    yWheels=20;
+    xLeftLW=51;
+    xRightLW=63;
+    yRoof=17;
 
-car1::car1() {
-    x1=51;
-    y1=20;
-    x2=63;
-    y2=17;
 }
-void car1::appear(map *map) {//crea la macchina.
-    map->set('[',x1+1,y1);map->set(']',x1+2,y1); map->set('[',x2-2,y1);map->set(']',x2-1,y1);
-    map->set('(',x1,y1-1);map->set('*',x1+1,y1-1);map->set('[',x1+3,y1-1);map->set('#',x1+4,y1-1);
-    map->set('#',x1+5,y1-1);map->set('#',x1+6,y1-1);map->set('#',x2-5,y1-1);map->set('#',x2-4,y1-1);
-    map->set(']',x2-3,y1-1); map->set('*',x2-1,y1-1);map->set(')',x2,y1-1);
-    map->set('_',x1+1,y1-2);map->set('_',x1+2,y1-2);map->set('.',x1+3,y1-2);map->set('.',x1+4,y1-2);
-    map->set('.',x1+5,y1-2);map->set('.',x1+6,y1-2);map->set('.',x2-5,y1-2);map->set('.',x2-4,y1-2);
-    map->set('_',x2-1,y1-2);map->set('_',x2-2,y1-2);map->set('/',x1,y1-2);map->set('\\',x2,y1-2);
-    for(int i=x1+1;i<x2;i++){
-        map->set('_',i,y2);
+void Car::appear(Map *map) {
+    map->set('[',xLeftWR,yWheels);map->set(']',xLeftWR+1,yWheels);
+    map->set('[',xRightWR-1,yWheels);map->set(']',xRightWR,yWheels);
+    map->set('(',xLeftLW,yWheels-1);map->set('*',xLeftLW+1,yWheels-1);
+    map->set('[',xLeftLW+3,yWheels-1);map->set('#',xLeftLW+4,yWheels-1);
+    map->set('#',xLeftLW+5,yWheels-1);map->set('#',xLeftLW+6,yWheels-1);
+    map->set('#',xRightLW-5,yWheels-1);map->set('#',xRightLW-4,yWheels-1);
+    map->set(']',xRightLW-3,yWheels-1); map->set('*',xRightLW-1,yWheels-1);
+    map->set(')',xRightLW,yWheels-1);
+    map->set('_',xLeftLW+1,yRoof+1);map->set('_',xLeftLW+2,yRoof+1);
+    map->set('.',xLeftLW+3,yRoof+1);map->set('.',xLeftLW+4,yRoof+1);
+    map->set('.',xLeftLW+5,yRoof+1);map->set('.',xLeftLW+6,yRoof+1);
+    map->set('.',xRightLW-5,yRoof+1);map->set('.',xRightLW-4,yRoof+1);
+    map->set('_',xRightLW-1,yRoof+1);map->set('_',xRightLW-2,yRoof+1);
+    map->set('/',xLeftLW,yRoof+1);map->set('\\',xRightLW,yRoof+1);
+    for(int i=xLeftWR;i<=xRightWR;i++){
+        map->set('_',i,yRoof);
     }
     map->print();
 }
-void car1::disappear(map *map) {//fa sparire la macchina
-    for (int j=y2;j>=y1;j++){
-        for (int i=x1;i<=x2;i++){
-            map->set(' ',i,j);
-        }
+
+void Car::disappear(Map *map) {
+    for(int i=xLeftWR;i<=xRightWR;i++){
+        map->set(' ',i,yWheels);
+        map->set(' ',i,yRoof);
     }
-}
-void car1::moveleft(map *map) {
-    car1::disappear(map);
-    if ((x1==15)||(x1==0)){//nelle posizione cardine fa in modo che lo spostamento avvenga bene.
-        x1=0;
-        x2=12;
-    }
-    else if(x2==114){
-        x1=87;
-        x2=99;
-    }
-    else{
-        x1=x1-12;
-        x2=x2-12;
+    for(int i=xLeftLW;i<=xRightLW;i++){
+        map->set(' ',i,yWheels-1);
+        map->set(' ',i,yRoof+1);
     }
 }
 
-void car1::moveright(map *map) {
-    car1::disappear(map);
-    if ((x2==99)||(x2==114)){
-        x1=102;
-        x2=114;
+void Car::moveLeft(Map *map) {
+    Car::disappear(map);
+    if((xLeftLW==0)||(xLeftLW==15)){
+        //in entrambi i casi si deve muovere nella posizione ad estrema sx.
+        xLeftLW=0;
+        xLeftWR=1;
+        xRightLW=12;
+        xRightWR=11;
+    } else if(xRightLW==114){ //posizione ad estrema destra
+        xLeftLW=87;
+        xLeftWR=88;
+        xRightLW=99;
+        xRightWR=98;
+    } else{
+        xLeftLW-=12;
+        xLeftWR-=12;
+        xRightLW-=12;
+        xRightWR-=12;
     }
-    else if(x1==0){
-        x1=15;
-        x2=27;
-    }
-    else{
-        x1=x1+12;
-        x2=x2+12;
+}
+void Car::moveRight(Map *map) {
+    Car::disappear(map);
+    if ((xRightLW == 99) || (xRightLW == 114)) {
+        xLeftLW = 102;
+        xLeftWR = 103;
+        xRightLW = 114;
+        xRightWR = 113;
+    } else if (xLeftLW == 0) {
+        xLeftLW = 15;
+        xLeftWR = 16;
+        xRightLW = 27;
+        xRightWR = 26;
+    } else {
+        xLeftLW += 12;
+        xLeftWR += 12;
+        xRightLW += 12;
+        xRightWR += 12;
     }
 }
