@@ -20,6 +20,7 @@ public:
     void disappear(Map *);
     void moveLeft(Map *);
     void moveRight(Map *);
+    bool outOfRoad();
 };
 
 
