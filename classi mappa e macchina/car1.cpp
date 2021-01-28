@@ -11,39 +11,40 @@ Car::Car(){
     yRoof=17;
 
 }
+
 void Car::appear(Map *map) {
-    map->set('[',xLeftWR,yWheels);map->set(']',xLeftWR+1,yWheels);
-    map->set('[',xRightWR-1,yWheels);map->set(']',xRightWR,yWheels);
-    map->set('(',xLeftLW,yWheels-1);map->set('*',xLeftLW+1,yWheels-1);
-    map->set('[',xLeftLW+3,yWheels-1);map->set('#',xLeftLW+4,yWheels-1);
-    map->set('#',xLeftLW+5,yWheels-1);map->set('#',xLeftLW+6,yWheels-1);
-    map->set('#',xRightLW-5,yWheels-1);map->set('#',xRightLW-4,yWheels-1);
-    map->set(']',xRightLW-3,yWheels-1); map->set('*',xRightLW-1,yWheels-1);
-    map->set(')',xRightLW,yWheels-1);
-    map->set('_',xLeftLW+1,yRoof+1);map->set('_',xLeftLW+2,yRoof+1);
-    map->set('.',xLeftLW+3,yRoof+1);map->set('.',xLeftLW+4,yRoof+1);
-    map->set('.',xLeftLW+5,yRoof+1);map->set('.',xLeftLW+6,yRoof+1);
-    map->set('.',xRightLW-5,yRoof+1);map->set('.',xRightLW-4,yRoof+1);
-    map->set('_',xRightLW-1,yRoof+1);map->set('_',xRightLW-2,yRoof+1);
-    map->set('/',xLeftLW,yRoof+1);map->set('\\',xRightLW,yRoof+1);
-    for(int i=xLeftWR;i<=xRightWR;i++){
-        map->set('_',i,yRoof);
+    map->set('[',yWheels,xLeftWR);map->set(']',yWheels,xLeftWR+1);
+    map->set('[',yWheels,xRightWR-1);map->set(']',yWheels,xRightWR);
+    map->set('(',yWheels-1,xLeftLW);map->set('*',yWheels-1,xLeftLW+1);
+    map->set('[',yWheels-1,xLeftLW+3);map->set('#',yWheels-1,xLeftLW+4);
+    map->set('#',yWheels-1,xLeftLW+5);map->set('#',yWheels-1,xLeftLW+6);
+    map->set('#',yWheels-1,xRightLW-5);map->set('#',yWheels-1,xRightLW-4);
+    map->set(']',yWheels-1,xRightLW-3); map->set('*',yWheels-1,xRightLW-1);
+    map->set(')',yWheels-1,xRightLW);
+    map->set('_',yRoof+1,xLeftLW+1);map->set('_',yRoof+1,xLeftLW+2);
+    map->set('.',yRoof+1,xLeftLW+3);map->set('.',yRoof+1,xLeftLW+4);
+    map->set('.',yRoof+1,xLeftLW+5);map->set('.',yRoof+1,xLeftLW+6);
+    map->set('.',yRoof+1,xRightLW-5);map->set('.',yRoof+1,xRightLW-4);
+    map->set('_',yRoof+1,xRightLW-1);map->set('_',yRoof+1,xRightLW-2);
+    map->set('/',yRoof+1,xLeftLW);map->set('\\',yRoof+1,xRightLW);
+    for(int j=xLeftWR;j<=xRightWR;j++){
+        map->set('_',yRoof,j);
     }
     map->print();
 }
 
-void Car::disappear(Map *map) { //cancella la macchina
-    for(int i=xLeftWR;i<=xRightWR;i++){
-        map->set(' ',i,yWheels);
-        map->set(' ',i,yRoof);
+void Car::disappear(Map *map) {
+    for(int j=xLeftWR;j<=xRightWR;j++){
+        map->set(' ',yWheels,j);
+        map->set(' ',yRoof,j);
     }
-    for(int i=xLeftLW;i<=xRightLW;i++){
-        map->set(' ',i,yWheels-1);
-        map->set(' ',i,yRoof+1);
+    for(int j=xLeftLW;j<=xRightLW;j++){
+        map->set(' ',yWheels-1,j);
+        map->set(' ',yRoof+1,j);
     }
 }
 
-void Car::moveLeft(Map *map) { //muove la macchina a sinistra
+void Car::moveLeft(Map *map) {
     Car::disappear(map);
     if((xLeftLW==0)||(xLeftLW==15)){
         //in entrambi i casi si deve muovere nella posizione ad estrema sx.
@@ -63,15 +64,14 @@ void Car::moveLeft(Map *map) { //muove la macchina a sinistra
         xRightWR-=12;
     }
 }
-void Car::moveRight(Map *map) { //muove macchiana destra
+void Car::moveRight(Map *map) {
     Car::disappear(map);
     if ((xRightLW == 99) || (xRightLW == 114)) {
-        //in entrambi i casi si deve muovere nella posizione ad estrema dx
         xLeftLW = 102;
         xLeftWR = 103;
         xRightLW = 114;
         xRightWR = 113;
-    } else if (xLeftLW == 0) { //posizione ad estrema sinistra
+    } else if (xLeftLW == 0) {
         xLeftLW = 15;
         xLeftWR = 16;
         xRightLW = 27;
@@ -82,8 +82,9 @@ void Car::moveRight(Map *map) { //muove macchiana destra
         xRightLW += 12;
         xRightWR += 12;
     }
-    
-    bool Car::outOfRoad() {
+}
+//anche fare feedback schermo!!
+bool Car::outOfRoad() {
     if((xLeftLW==0)||(xRightLW==114)){
         return true;
     }
