@@ -7,9 +7,12 @@ using namespace std;
 #ifndef NOMEPROGETTO_MAP_HPP
 #define NOMEPROGETTO_MAP_HPP
 
-class Map{
+class Map {
 protected:
-    char matrix[116][21];
+    char matrix[21][116];
+    int nOfLines=21;
+    int nOfColumns=116;
+    int horizon=9;
 public:
     Map();
     void print();
