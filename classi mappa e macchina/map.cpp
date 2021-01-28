@@ -1,40 +1,41 @@
-//
-// Created by Lorenzo on 26/01/2021.
-//
 #include "map.hpp"
 
-Map::Map() { //crea la strada del gioco.
-    for(int j=0;j<21;j++){
-        for(int i=0;i<116;i++){
-            if (i==115){
-                matrix[i][j]='\n';
+
+Map::Map(){
+    for (int i=0;i<horizon;i++){
+        for(int j=0;j<nOfColumns-1;j++){
+                matrix[i][j]=' ';
+        }
+    }
+    for (int j=0;j<nOfColumns-1;j++){
+        matrix[horizon][j]='=';
+    }
+    for (int i=0;i<nOfLines-horizon-1;i++){
+        for (int j=0;j<nOfColumns-1;j++){
+            if(j==colTopLeftRoad-i){
+                matrix[horizon+1+i][j]='/';
             }
-            else if(j==9){
-                matrix[i][j]='=';
+            else if(j==colTopRightRoad+i){
+                matrix[horizon+1+i][j]='\\';
             }
             else{
-                if ((i<60)&&(i==32-j)&&(j>9)){
-                    matrix[i][j]='/';
-                }
-                else if((i>60)&&(i==82+j)&&(j>9)){
-                    matrix[i][j]='\\';
-                }
-                else{
-                    matrix[i][j]=' ';
-                }
+                matrix[horizon+1+i][j]=' ';
             }
         }
+    }
+    for(int i=0;i<nOfLines;i++){
+        matrix[i][nOfColumns-1]='\n';
     }
 }
 
 void Map::print() { //stampa riga per riga tutti i caratteri della matrice
-    for (int j = 0; j < 21; j++) {
-        for (int i = 0; i < 116; i++) {
+    for (int i = 0; i < nOfLines; i++) {
+        for (int j = 0; j < nOfColumns; j++) {
             cout << matrix[i][j];
         }
     }
 }
 
-void Map::set(char carattere, int coordx, int coordy) { //si può immettere nella matrice un carattere nella posizione desiderata
-    matrix[coordx][coordy]=carattere;
+void Map::set(char character, int line, int column) { //si può immettere nella matrice un carattere nella posizione desiderata
+    matrix[line][column]=character;
 }
