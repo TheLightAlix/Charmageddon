@@ -16,12 +16,12 @@ protected:
     int carPosition=0;
 public:
     Map();
-    void setCursor(short,short);
+    void setCursor(short,short); //mette il cursore ad una determinata coordinata
     int getScreenWidth();
     int getScreenHeight();
-    void printMap();
-    void setAndPrintChar(char,short,short);
-    void setAndPrintString(string,short,short);
+    void printMap(); //stampa tutta la mappa
+    void setAndPrintChar(char,short,short); //stampa un carattere ad una determinata coordinata x e y
+    void setAndPrintString(string,short,short); // stampa un stringa ad una determinata coordinata x e y
     void setCarPos(int);
 };
 
