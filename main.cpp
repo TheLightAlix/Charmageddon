@@ -119,7 +119,7 @@ public:
 
         }
         ptr iter;
-        ofstream scrivi;
+        ofstream scrivi; //salva nel documento txt la nuova lista di record aggiornata
         iter = h;
         scrivi.open("record.txt");
         while (iter != NULL) {
@@ -128,6 +128,7 @@ public:
         }
 
         scrivi.close();
+        return h;
 
     }
 
@@ -136,36 +137,99 @@ public:
         iter = h;
         int i = 10;
 
-        for (i=10;iter !=NULL ;i++) {
-            gotoxy(10, i);
+        for (i=6 ;iter !=NULL ;i++) {
+            gotoxy(20, i);
             cout << iter->pz << " " << iter->n << " " << iter->s << endl;
             iter = iter->next;
         }
     }
 
+    void post_menu (string user, int score, ptr h) {
+        char key;
+        gotoxy(20, 15);
+        cout << "G A M E   O V E R";
+        gotoxy(20, 16);
+        ptr iter;
+        bool controllo = false;
+        bool record = false;
+        bool esc = false;
+        iter = h;
+        while (controllo == false && iter != NULL) {
+            if (score > iter->s) {
+                record = true;
+                controllo = true;
+            } else {
+                iter = iter->next;
+            }
+        }
+
+        if (record == true) {
+            gotoxy(20, 15);
+            cout << "CONGRATS! That's a new record!!!";
+            gotoxy(20, 20);
+            system("pause");
+            gotoxy(20, 15);
+            cout << "Press any key to show your position!";
+            gotoxy(20, 20);
+            system("pause");
+
+            system("cls");
+            h = newscore(h, score, user);
+            cout_lista(h);
+
+            esc = false;
+            while (esc == false) {
+                gotoxy(20, 20);
+                cout << "Press ESC to go back to the main menu!" << endl;
+                key = _getch();
+                if (key == 27) {
+                    esc = true;
+                }
+            }
+
+        }
+
+        else if (record == false) {
+            gotoxy(20, 15);
+            cout << "Thanks for playing!!!";
+
+            esc = false;
+            while (esc == false) {
+                gotoxy(20, 20);
+                cout << "Press ESC to go back to the main menu!" << endl;
+                key = _getch();
+                if (key == 27) {
+                    esc = true;
+                }
+            }
+
+        }
+
+    }
+
     string presentazione() {
         string user;
-        gotoxy(10, 15);
-        cout << "Ciao!" <<endl <<endl;
+        gotoxy(20, 15);
+        cout << "Hello World! Good to see you again! Take a ride!" <<endl <<endl;
+        gotoxy(20, 18);
         system("pause");
 
         system("cls");
-        gotoxy(10, 15);
-        cout << "Inserisci il tuo user qui! >>" << " ";
+        gotoxy(20, 15);
+        cout << "What's your name again? " << "Username: ";
         cin >> user;
 
         return user;
     }
 
-    menu() {
+    menu(int counter = 1) {
 
-        string user = presentazione();
         system("cls");
+
         h = NULL;
         p = NULL;
         h = creazione_lista();
 
-        int counter = 1;
         int Set [] = {7, 7, 7, 7, 7, 7, 7}; //colors
         char key;
         bool controllo = false;
@@ -176,21 +240,21 @@ public:
 
         while (controllo == false) {
 
-            gotoxy(10, 15);
+            gotoxy(20, 10);
             color(Set[0]);
-            cout << "1. Play now!";
+            cout << "Play now!";
 
-            gotoxy(10, 16);
+            gotoxy(20, 11);
             color(Set[1]);
-            cout << "2. Top 10 Records";
+            cout << "Top 10 Records";
 
-            gotoxy(10, 17);
+            gotoxy(20, 12);
             color(Set[2]);
-            cout << "3. About" << endl;
+            cout << "About" ;
 
-            gotoxy(10, 18);
+            gotoxy(20, 13);
             color(Set[3]);
-            cout << "4. Exit" << endl;
+            cout << "Exit";
 
             key = _getch();
 
@@ -232,20 +296,44 @@ public:
         system("cls");
 
         if (counter == 1) {
-            cout << endl << "here the game" <<endl; //qui metteremo il gioco
-            system ("pause");
+            string user = presentazione();
+            //score = gioco.
+            system("cls");
+            post_menu(user, 77, h);
+            menu(1);
         }
 
         if (counter == 2) {
+            controllo = false;
             cout_lista(h); //cout lista è usato per stampare nella console la lista che precedentemente era stata creata da txt in creazione_lista
-            system("pause");
+
+            while (controllo == false) {
+                gotoxy(20, 20);
+                cout << "Press ESC to go back!" << endl;
+                key = _getch();
+                if (key == 27) {
+                    controllo = true;
+                }
+            }
+            menu(2);
         }
 
         if (counter == 3) {
-            gotoxy(10, 15);
-            cout << "Menu 3" <<endl;
-            system("pause");
+            controllo = false;
+            gotoxy(20, 10);
+            cout << "This is a project we made to complete our programming exam!" <<endl;
+            gotoxy(20, 11);
+            cout <<  "It's a console-based game and we're so proud of it! Take a ride!";
 
+            while (controllo == false) {
+                gotoxy(20, 20);
+                cout << "Press ESC to go back!" << endl;
+                key = _getch();
+                if (key == 27) {
+                    controllo = true;
+                }
+            }
+            menu(3);
         }
 
         if (counter == 4) {
@@ -258,7 +346,6 @@ public:
 int main() {
 
     menu a;
-
 
     return 0;
 }
