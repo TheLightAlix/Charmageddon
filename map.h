@@ -30,7 +30,7 @@ public:
     int getScreenHeight();
     void printMap();
     void setAndPrintChar(char,short,short);
-    void setAndPrintStrCol(string,short,short,colours);
+    void setAndPrintStrCol(string[],int,short,short,colours);
     void setCarPos(int);
 };
 
