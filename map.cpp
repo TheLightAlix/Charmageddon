@@ -24,7 +24,7 @@ void Map::setAndPrintChar(char c,short x, short y) {
     cout<<c;
 }
 
-void Map::setAndPrintStrCol(string str, short x, short y, colours col=WHITE) {
+void Map::setAndPrintStrCol(string str[],int length, short x, short y, colours col=WHITE) {
     switch(col) {
             case BLUE:
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE);
@@ -37,8 +37,11 @@ void Map::setAndPrintStrCol(string str, short x, short y, colours col=WHITE) {
             break;
         default: ;
     }
-    setCursor(x,y);
-    cout<<str;
+    //stampa per prima l'ultima riga(dello sprite), poi la penultima etc etc
+    for(int i = 0; i < length;i++){
+        setCursor(x,y-i);
+        cout<<str[i];
+    }
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),csbi.wAttributes);//ritorna alla normalità
 }
 void Map::printMap() {
