@@ -2,7 +2,6 @@
 // Created by Lorenzo on 02/02/2021.
 //
 
-
 #include "Map.h"
 Map::Map() {
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&csbi);
@@ -26,16 +25,26 @@ void Map::setAndPrintChar(char c,short x, short y) {
 
 void Map::setAndPrintStrCol(string str[],int length, short x, short y, colours col=WHITE) {
     switch(col) {
-            case BLUE:
+        case BLUE:
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE);
-            break;
-        case GREEN:
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN);
             break;
         case RED:
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
             break;
+        case GREEN:
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN);
+            break;
+        case OCHRE:
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN);
+            break;
+        case VIOLET:
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_RED | FOREGROUND_BLUE);
+            break;
+        case CYAN:
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_BLUE | FOREGROUND_GREEN);
+            break;
         default: ;
+
     }
     //stampa per prima l'ultima riga(dello sprite), poi la penultima etc etc
     for(int i = 0; i < length;i++){
@@ -44,6 +53,7 @@ void Map::setAndPrintStrCol(string str[],int length, short x, short y, colours c
     }
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),csbi.wAttributes);//ritorna alla normalità
 }
+
 void Map::printMap() {
     for(int y = screenHeight;y >= screenHeight/2.3;y--){ //il 2.3 serve per dare più di metà schermo alla strada
         for (int x = 0;x <= screenWidth;x++){
@@ -56,7 +66,6 @@ void Map::printMap() {
         }
     }
 }
-
 void Map::setCarPos(int x) {
     carPosition = x;
 }
@@ -65,4 +74,10 @@ int Map::getScreenWidth() {
 }
 int Map::getScreenHeight() {
     return screenHeight;
+}
+int Map::getSLR() {
+    return startLeftRoad;
+}
+int Map::getSRR(){
+    return startRightRoad;
 }
