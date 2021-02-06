@@ -142,11 +142,12 @@ string menu::presentazione() {
     return user;
 }
 void menu::post_menu (string user, int score, ptr h) {
-
+    window();
     char key;
-    gotoxy(x-4, y+2);
+    gotoxy(x-2, y);
     cout << "G A M E   O V E R";
-    gotoxy(x-16, y+5);
+    window();
+    gotoxy(x-14, y+5);
     system("pause");
     system ("cls");
     ptr iter;
@@ -164,13 +165,17 @@ void menu::post_menu (string user, int score, ptr h) {
     }
 
     if (record == true) {
+        window();
         gotoxy(x-11, y+2);
         cout << "CONGRATS! That's a new record!!!";
+        window();
         gotoxy(x-16, y+5);
         system("pause");
         system("cls");
+        window();
         gotoxy(x-15, y+3);
         cout << "Press any key to show your position!";
+        window();
         gotoxy(x-16, y+5);
         system("pause");
 
@@ -180,6 +185,7 @@ void menu::post_menu (string user, int score, ptr h) {
 
         esc = false;
         while (esc == false) {
+            window();
             gotoxy(x-5, y);
             cout << "Press ESC to go back to the main menu!" << endl;
             key = _getch();
@@ -191,12 +197,13 @@ void menu::post_menu (string user, int score, ptr h) {
     }
 
     else if (record == false) {
-        gotoxy(20, 15);
+        window();
+        gotoxy(x-2, y+2);
         cout << "Thanks for playing!!!";
-
         esc = false;
         while (esc == false) {
-            gotoxy(20, 20);
+            window();
+            gotoxy(x-11, y);
             cout << "Press ESC to go back to the main menu!" << endl;
             key = _getch();
             if (key == 27) {
@@ -290,7 +297,6 @@ menu::menu(int counter) {
         string user = presentazione();
         //score = gioco.
         system("cls");
-        window();
         post_menu(user, 130, h);
         menu(1);
     }
