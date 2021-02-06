@@ -1,4 +1,3 @@
-
 #ifndef GIOCO2_0_MAP_H
 #define GIOCO2_0_MAP_H
 
@@ -8,8 +7,11 @@ using namespace std;
 
 enum colours {
     BLUE,
-    GREEN,
     RED,
+    GREEN,
+    OCHRE,
+    VIOLET,
+    CYAN,
     WHITE
 };
 
@@ -32,6 +34,8 @@ public:
     void setAndPrintChar(char,short,short);
     void setAndPrintStrCol(string[],int,short,short,colours);
     void setCarPos(int);
+    int getSLR();
+    int getSRR();
 };
 
 #endif //GIOCO2_0_MAP_H
