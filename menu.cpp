@@ -14,14 +14,13 @@ void menu::gotoxy(int x, int y) {
 void menu::window() {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&csbi);
-    x = csbi.srWindow.Right * 0.5 -6;
-    y = csbi.srWindow.Bottom * 0.5 -2;
+    x = csbi.srWindow.Right * 0.5;
+    y = csbi.srWindow.Bottom * 0.5;
 }
 ptr menu::creazione_lista () {
 
     string name;
     int pos, score;
-
 
     ifstream  file("record.txt");
     if (file.is_open()){
@@ -122,32 +121,114 @@ void menu::cout_lista (ptr h) {
     int i = 10;
 
     for (y ;iter !=NULL ;y++) {
-        gotoxy(x-5, y-3);
+        gotoxy(x-6, y-6);
         cout << iter->pz << " " << iter->n << " " << iter->s << endl;
         iter = iter->next;
     }
 }
 string menu::presentazione() {
     string user;
-    gotoxy(x-18, y+2);
+    window();
+    gotoxy(x-24, y-2);
     cout << "Hello World! Good to see you again! Take a ride!" <<endl <<endl;
-    gotoxy(x-18, y+6);
+    window();
+    gotoxy(x-19, y+2);
     system("pause");
 
     system("cls");
-    gotoxy(x-16, y+2);
+    gotoxy(x-17, y-2);
     cout << "What's your name again? " << "Username: ";
     cin >> user;
-
     return user;
 }
-void menu::post_menu (string user, int score, ptr h) {
-    window();
+
+int menu::scelta_car() {
+    keybd_event(VK_SPACE, 0, 0, 0);
+    keybd_event(VK_SPACE, 0, KEYEVENTF_KEYUP, 0);
+    system("cls");
+    int scelta;
     char key;
-    gotoxy(x-2, y);
-    cout << "G A M E   O V E R";
+    bool controllo = false;
+
+    string car1[4];
+    car1[3]="  _____";
+    car1[2]=" /_..._\\";
+    car1[1]="(*[###]*)";
+    car1[0]=" []   []";
+
+    string car2[4];
+    car2[3]="  ||+++||";
+    car2[2]="    +++";
+    car2[1]="||| +++ |||";
+    car2[0]="|||+++++|||";
+
+    scelta =1;
+    while (controllo == false) {
+
+        window();
+        gotoxy(x-8, y-6);
+        cout << "Choose your car!";
+
+        key = _getch();
+
+        if (key == 75 && (scelta > 1)) { //left arrow key
+            scelta--;
+        }
+
+        else if (key == 77 && (scelta < 2)) { //right arrow key
+            scelta++;
+        }
+        window();
+
+        if (scelta == 1) {
+            system ("cls");
+
+            window();
+
+            for (int i=3;i>=0;i--,y++) {
+                gotoxy(x-20, y);
+                cout << car1[i] << endl;
+            }
+            window();
+            for (int i=3;i>=0;i--,y++) {
+                gotoxy(x+12, y+5);
+                cout << car2[i] << endl;
+            }
+        }
+
+        if (scelta == 2){
+            system ("cls");
+
+            window();
+
+            for (int i=3;i>=0;i--,y++) {
+                gotoxy(x-20, y+5);
+                cout << car1[i] << endl;
+            }
+
+            window();
+
+            for (int i=3;i>=0;i--,y++) {
+                gotoxy(x+12, y);
+                cout << car2[i] << endl;
+            }
+        }
+
+        if (key == '\r'){
+            controllo = true;
+        }
+
+    }
+
+    return scelta;
+}
+void menu::post_menu (string user, int score, ptr h) {
+    char key;
     window();
-    gotoxy(x-14, y+5);
+    gotoxy(x-9, y);
+    cout << "G A M E    O V E R";
+    window();
+    gotoxy(x-19, y+10);
     system("pause");
     system ("cls");
     ptr iter;
@@ -166,17 +247,17 @@ void menu::post_menu (string user, int score, ptr h) {
 
     if (record == true) {
         window();
-        gotoxy(x-11, y+2);
+        gotoxy(x-16, y-1);
         cout << "CONGRATS! That's a new record!!!";
         window();
-        gotoxy(x-16, y+5);
+        gotoxy(x-19, y+6);
         system("pause");
         system("cls");
         window();
-        gotoxy(x-15, y+3);
+        gotoxy(x-18, y-1);
         cout << "Press any key to show your position!";
         window();
-        gotoxy(x-16, y+5);
+        gotoxy(x-19, y+6);
         system("pause");
 
         system("cls");
@@ -186,7 +267,7 @@ void menu::post_menu (string user, int score, ptr h) {
         esc = false;
         while (esc == false) {
             window();
-            gotoxy(x-5, y);
+            gotoxy(x-19, y+12);
             cout << "Press ESC to go back to the main menu!" << endl;
             key = _getch();
             if (key == 27) {
@@ -198,12 +279,12 @@ void menu::post_menu (string user, int score, ptr h) {
 
     else if (record == false) {
         window();
-        gotoxy(x-2, y+2);
+        gotoxy(x-11, y);
         cout << "Thanks for playing!!!";
         esc = false;
         while (esc == false) {
             window();
-            gotoxy(x-11, y);
+            gotoxy(x-19, y+3);
             cout << "Press ESC to go back to the main menu!" << endl;
             key = _getch();
             if (key == 27) {
@@ -230,22 +311,20 @@ menu::menu(int counter) {
     keybd_event(VK_SPACE, 0, 0, 0);
     keybd_event(VK_SPACE, 0, KEYEVENTF_KEYUP, 0);
 
-
     while (controllo == false) {
 
         window();
 
-
-        gotoxy(x, y);
+        gotoxy(x-5, y-2);
         cout << "Play now!";
 
-        gotoxy(x, y+1);
+        gotoxy(x-5, y-1);
         cout << "Top 10 Records";
 
-        gotoxy(x, y+2);
+        gotoxy(x-5, y);
         cout << "About" ;
 
-        gotoxy(x, y+3);
+        gotoxy(x-5, y+1);
         cout << "Exit";
 
         key = _getch();
@@ -265,25 +344,25 @@ menu::menu(int counter) {
 
         if (counter == 1) {
             system ("cls");
-            gotoxy(x-2, y);
+            gotoxy(x-7, y-2);
             cout << ">>" ;
         }
 
         else if (counter == 2) {
             system ("cls");
-            gotoxy(x-2, y+1);
+            gotoxy(x-7, y-1);
             cout << ">>" ;
         }
 
         else if (counter == 3) {
             system ("cls");
-            gotoxy(x-2, y+2);
+            gotoxy(x-7, y);
             cout << ">>" ;
         }
 
         else if (counter == 4) {
             system ("cls");
-            gotoxy(x-2, y+3);
+            gotoxy(x-7, y+1);
             cout << ">>" ;
         }
 
@@ -293,8 +372,9 @@ menu::menu(int counter) {
 
 
     if (counter == 1) {
-        window();
         string user = presentazione();
+        system("cls");
+        int scelta = scelta_car();
         //score = gioco.
         system("cls");
         post_menu(user, 130, h);
@@ -307,7 +387,7 @@ menu::menu(int counter) {
             system("cls");
             window();
             cout_lista(h); //cout lista è usato per stampare nella console la lista che precedentemente era stata creata da txt in creazione_lista
-            gotoxy(x, y+4);
+            gotoxy(x-11, y+4);
             cout << "Press ESC to go back!" << endl;
             key = _getch();
             if (key == 27) {
@@ -323,11 +403,11 @@ menu::menu(int counter) {
         while (controllo == false) {
             system("cls");
             window();
-            gotoxy(x-23, y);
+            gotoxy(x-30, y);
             cout << "This is a project we made to complete our programming exam!" <<endl;
-            gotoxy(x-23, y+1);
+            gotoxy(x-32, y+1);
             cout <<  "It's a console-based game and we're so proud of it! Take a ride!";
-            gotoxy(x, y+16);
+            gotoxy(x-11, y+16);
             cout << "Press ESC to go back!" << endl;
             key = _getch();
             if (key == 27) {

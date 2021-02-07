@@ -26,7 +26,6 @@ class menu {
 protected:
     int x;
     int y;
-    int startmenu;
     ptr h, p;
     void color(int color);
     void window();
@@ -36,6 +35,7 @@ public:
     ptr creazione_lista ();
     ptr newscore (ptr h, int nscore, string user);
     void cout_lista (ptr h);
+    int scelta_car();
     void post_menu (string user, int score, ptr h);
     string presentazione();
 
