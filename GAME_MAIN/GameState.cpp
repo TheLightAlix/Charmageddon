@@ -34,15 +34,13 @@ void GameState::SetGameState(state myState) {
 
     switch(currentState) {
         case MENU :
-            cout<<"test1";
+
             points=MyMenu->crea_menu();
-            cout<<points;
-            SetGameState(PLAYING);
+          
 
             break;
         case PLAYING:
-            cin>>points;
-            cout<<points;
+
 
             break;
         case GAMEOVER:
