@@ -1,8 +1,8 @@
 //
-// Created by leola on 05/02/2021.
+// Created by leola on 07/02/2021.
 //
 
-#include "menu.h"
+#include "menu.hpp"
 
 
 void menu::gotoxy(int x, int y) {
@@ -141,7 +141,6 @@ string menu::presentazione() {
     cin >> user;
     return user;
 }
-
 int menu::scelta_car() {
     keybd_event(VK_SPACE, 0, 0, 0);
     keybd_event(VK_SPACE, 0, KEYEVENTF_KEYUP, 0);
@@ -295,18 +294,21 @@ void menu::post_menu (string user, int score, ptr h) {
     }
 
 }
+int menu::get_scelta() {
+    return scelta;
+}
 
+menu::menu() {
 
-menu::menu(int counter) {
-
-    system("cls");
-
+    counter = 1;
     h = NULL;
     p = NULL;
     h = creazione_lista();
 
-    char key;
-    bool controllo = false;
+
+}
+
+void menu::crea_menu(GameState *MyGameState) {
 
     keybd_event(VK_SPACE, 0, 0, 0);
     keybd_event(VK_SPACE, 0, KEYEVENTF_KEYUP, 0);
@@ -374,11 +376,11 @@ menu::menu(int counter) {
     if (counter == 1) {
         string user = presentazione();
         system("cls");
-        int scelta = scelta_car();
-        //score = gioco.
-        system("cls");
-        post_menu(user, 130, h);
-        menu(1);
+        scelta = scelta_car();
+        MyGameState->GetGameState();
+       // system("cls");
+       // post_menu(user, 130, h);
+        crea_menu(MyGameState);
     }
 
     else if (counter == 2) {
@@ -394,7 +396,7 @@ menu::menu(int counter) {
                 controllo = true;
             }
         }
-        menu(2);
+        crea_menu(MyGameState);
     }
 
     else if (counter == 3) {
@@ -414,8 +416,9 @@ menu::menu(int counter) {
                 controllo = true;
             }
         }
-        menu(3);
+        crea_menu(MyGameState);
     } else {
         return;
     }
+
 }
