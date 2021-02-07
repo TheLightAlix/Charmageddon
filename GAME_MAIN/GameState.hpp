@@ -7,6 +7,7 @@
 
 #include "Player.hpp"
 #include "InteractableObject.hpp"
+#include "Menu.hpp"
 
 
 
@@ -36,6 +37,8 @@ protected:
     int basePointsToIncreaseLvl;
     float levelUpScaling;
     state currentState;
+    Menu *MyMenu;
+    int MenuState;
 
 
 public:

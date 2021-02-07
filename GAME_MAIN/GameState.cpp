@@ -3,11 +3,13 @@
 //
 
 #include "GameState.hpp"
-#include "Menu.hpp"
 #include <thread>
 #include <chrono>
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
+
+using namespace std;
 
 
 
@@ -18,9 +20,11 @@ GameState::GameState(){
     pointPerTickVariation=1;
     millisecToUpdatePoints=250;
     currentLvl=1;
+    MenuState=1;
     basePointsToIncreaseLvl=10000;
     levelUpScaling=1.f;
     currentState=MENU;
+    MyMenu=new Menu();
 }
 
 
@@ -30,10 +34,15 @@ void GameState::SetGameState(state myState) {
 
     switch(currentState) {
         case MENU :
-
+            cout<<"test1";
+            points=MyMenu->crea_menu();
+            cout<<points;
+            SetGameState(PLAYING);
 
             break;
         case PLAYING:
+            cin>>points;
+            cout<<points;
 
             break;
         case GAMEOVER:
