@@ -1,8 +1,8 @@
 //
-// Created by leola on 07/02/2021.
+// Created by TheLi on 06/02/2021.
 //
 
-#include "Menu.hpp"
+#include "Menu.h"
 
 
 void Menu::gotoxy(int x, int y) {
@@ -304,12 +304,12 @@ Menu::Menu() {
     h = NULL;
     p = NULL;
     h = creazione_lista();
-
+    char key;
 
 }
 
-void Menu::crea_menu(GameState *MyGameState) {
-
+int Menu::crea_menu() {
+    bool controllo = false;
     keybd_event(VK_SPACE, 0, 0, 0);
     keybd_event(VK_SPACE, 0, KEYEVENTF_KEYUP, 0);
 
@@ -377,10 +377,10 @@ void Menu::crea_menu(GameState *MyGameState) {
         string user = presentazione();
         system("cls");
         scelta = scelta_car();
-        MyGameState->GetGameState();
-       // system("cls");
-       // post_menu(user, 130, h);
-        crea_menu(MyGameState);
+        return counter;
+        // system("cls");
+        // post_menu(user, 130, h);
+
     }
 
     else if (counter == 2) {
@@ -396,7 +396,7 @@ void Menu::crea_menu(GameState *MyGameState) {
                 controllo = true;
             }
         }
-        crea_menu(MyGameState);
+        crea_menu();
     }
 
     else if (counter == 3) {
@@ -416,9 +416,9 @@ void Menu::crea_menu(GameState *MyGameState) {
                 controllo = true;
             }
         }
-        crea_menu(MyGameState);
+        crea_menu();
     } else {
-        return;
+        return counter;
     }
 
 }

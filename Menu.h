@@ -1,9 +1,9 @@
 //
-// Created by TheLi on 06/02/2021.
+// Created by Lorenzo on 07/02/2021.
 //
 
-#ifndef CHARMAGEDDON_MENU_HPP
-#define CHARMAGEDDON_MENU_HPP
+#ifndef CHARMAGEDDON_MENU_H
+#define CHARMAGEDDON_MENU_H
 
 
 #include <iostream>
@@ -12,7 +12,6 @@
 #include <fstream>
 #include <string>
 #include <cmath>
-
 
 using namespace std;
 
@@ -27,7 +26,6 @@ typedef list *ptr;
 class Menu {
 protected:
     char key;
-    bool controllo = false;
     int x;
     int y;
     ptr h, p;
@@ -48,9 +46,8 @@ public:
 
     Menu();
 
-    int crea_menu(ptr h);
+    int crea_menu();
 
 };
 
-
-#endif //CHARMAGEDDON_MENU_HPP
+#endif //CHARMAGEDDON_MENU_H
