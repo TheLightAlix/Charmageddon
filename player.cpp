@@ -26,14 +26,14 @@ Player::Player(Map *map,int type,colours col) {
             disapp[1] = "           ";
             disapp[0] = "           ";
     }
+    screenWidth = map->getScreenWidth();
 }
-int Player::xCarPosition(float rp, int screenWidth) {
+int Player::xCarPosition(float rp) {
     return (screenWidth/2 + (int)(screenWidth*rp/2) - carWidth/2);
 }
 void Player::printCar(Map *map) {
-    int screenWidth = map->getScreenWidth();
     int screenHeight = map->getScreenHeight();
-    int xPos= xCarPosition(relPos,screenWidth);
+    int xPos= xCarPosition(relPos);
     map->setCarPos(xPos);
     map->setAndPrintStrCol(car,4,xPos,screenHeight,colour);
     map->setCursor(screenWidth,0);
@@ -67,19 +67,18 @@ void Player::resetAndPrint(Map *map,int xCarPos) {
     printCar(map);
 }
 void Player::moveCar(Map *map) {
-    int screenWidth=map->getScreenWidth();
     int xCarPos;
     if (GetAsyncKeyState(VK_LEFT) & (0x8000 != 0)) {
-        disappear(map,xCarPosition(relPos,screenWidth));
-        xCarPos=xCarPosition(relPos-movement,screenWidth);
+        disappear(map,xCarPosition(relPos));
+        xCarPos=xCarPosition(relPos-movement);
         if(xCarPos>=0){
             relPos-=movement;
         }
         resetAndPrint(map,xCarPos);
     }
     else if(GetAsyncKeyState(VK_RIGHT)& (0x8000 != 0)){
-        disappear(map,xCarPosition(relPos,screenWidth));
-        xCarPos=xCarPosition(relPos+movement,screenWidth);
+        disappear(map,xCarPosition(relPos));
+        xCarPos=xCarPosition(relPos+movement);
         if(xCarPos<=screenWidth-carWidth){
             relPos+=movement;
         }
@@ -96,4 +95,13 @@ float Player::getMovement() {
 int Player::getCarWidth() {
     return carWidth;
 }
+void Player::getRightCarPos(int positions[]) {
+    string prova;
+    int xCarPos = xCarPosition(relPos);
+    for(int i = 0; i < 4 ;i++ ){
+        prova = car[i];
+        positions[i] = xCarPos+prova.length()-1;//il meno 1 perchè xCarPos mi dice la prima posizione
+    }
+}
+
 
