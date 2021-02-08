@@ -1,6 +1,6 @@
 
-
 #include "Map.hpp"
+#include "InteractableObject.hpp"
 #ifndef GIOCO2_0_CAR_H
 #define GIOCO2_0_CAR_H
 
@@ -14,17 +14,20 @@ protected:
     int screenWidth;
     int xCarPosition(float);//serve per calcolare la posizione in cui verrà stampata la macchina.
     colours colour; //decide il colore da dare alla macchina
+    void disappear(Map *,int);
     void resetAndPrint(Map *,int);
     bool outOfRoad;
 public:
     Player(Map *,int,colours);
     void printCar(Map *); //serve per stampare la macchina all'interno della mappa.
-    void disappear(Map *,int);
     void moveCar(Map *); //serve per far muovere la macchiana a destra e sinistra.
     float getMovement();
     void setMovement(float);
     int getCarWidth();
     void getRightCarPos(int[]);
+    bool getOutOfRoad();
+    bool CheckHit(InteractableObject *);
+    void handleHit(bool);
 };
 
 #endif //GIOCO2_0_CAR_H
