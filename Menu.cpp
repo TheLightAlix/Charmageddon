@@ -2,7 +2,7 @@
 // Created by TheLi on 06/02/2021.
 //
 
-#include "Menu.h"
+#include "Menu.hpp"
 
 
 void Menu::gotoxy(int x, int y) {
@@ -141,86 +141,6 @@ string Menu::presentazione() {
     cin >> user;
     return user;
 }
-int Menu::scelta_car() {
-    keybd_event(VK_SPACE, 0, 0, 0);
-    keybd_event(VK_SPACE, 0, KEYEVENTF_KEYUP, 0);
-    system("cls");
-    int scelta;
-    char key;
-    bool controllo = false;
-
-    string car1[4];
-    car1[3]="  _____";
-    car1[2]=" /_..._\\";
-    car1[1]="(*[###]*)";
-    car1[0]=" []   []";
-
-    string car2[4];
-    car2[3]="  ||+++||";
-    car2[2]="    +++";
-    car2[1]="||| +++ |||";
-    car2[0]="|||+++++|||";
-
-    scelta =1;
-    while (controllo == false) {
-
-        window();
-        gotoxy(x-8, y-6);
-        cout << "Choose your car!";
-
-        key = _getch();
-
-        if (key == 75 && (scelta > 1)) { //left arrow key
-            scelta--;
-        }
-
-        else if (key == 77 && (scelta < 2)) { //right arrow key
-            scelta++;
-        }
-        window();
-
-        if (scelta == 1) {
-            system ("cls");
-
-            window();
-
-            for (int i=3;i>=0;i--,y++) {
-                gotoxy(x-20, y);
-                cout << car1[i] << endl;
-            }
-            window();
-            for (int i=3;i>=0;i--,y++) {
-                gotoxy(x+12, y+5);
-                cout << car2[i] << endl;
-            }
-        }
-
-        if (scelta == 2){
-            system ("cls");
-
-            window();
-
-            for (int i=3;i>=0;i--,y++) {
-                gotoxy(x-20, y+5);
-                cout << car1[i] << endl;
-            }
-
-            window();
-
-            for (int i=3;i>=0;i--,y++) {
-                gotoxy(x+12, y);
-                cout << car2[i] << endl;
-            }
-        }
-
-        if (key == '\r'){
-            controllo = true;
-        }
-
-    }
-
-    return scelta;
-}
 void Menu::post_menu (string user, int score, ptr h) {
     char key;
     window();
@@ -294,22 +214,171 @@ void Menu::post_menu (string user, int score, ptr h) {
     }
 
 }
+void Menu::scelta_car() {
+    keybd_event(VK_SPACE, 0, 0, 0);
+    keybd_event(VK_SPACE, 0, KEYEVENTF_KEYUP, 0);
+    system("cls");
+    char key;
+    bool controllo = false;
+
+    string car1[4];
+    car1[3]="  _____";
+    car1[2]=" /_..._\\";
+    car1[1]="(*[###]*)";
+    car1[0]=" []   []";
+
+    string car2[4];
+    car2[3]="  ||+++||";
+    car2[2]="    +++";
+    car2[1]="||| +++ |||";
+    car2[0]="|||+++++|||";
+
+    scelta =1;
+    while (controllo == false) {
+
+        window();
+        gotoxy(x-8, y-6);
+        cout << "Choose your car!";
+
+        key = _getch();
+
+        if (key == 75 && (scelta > 1)) { //left arrow key
+            scelta--;
+        }
+
+        else if (key == 77 && (scelta < 2)) { //right arrow key
+            scelta++;
+        }
+        window();
+
+        if (scelta == 1) {
+            system ("cls");
+
+            window();
+
+            for (int i=3;i>=0;i--,y++) {
+                gotoxy(x-20, y);
+                cout << car1[i] << endl;
+            }
+            window();
+            for (int i=3;i>=0;i--,y++) {
+                gotoxy(x+12, y+5);
+                cout << car2[i] << endl;
+            }
+        }
+
+        if (scelta == 2){
+            system ("cls");
+
+            window();
+
+            for (int i=3;i>=0;i--,y++) {
+                gotoxy(x-20, y+5);
+                cout << car1[i] << endl;
+            }
+
+            window();
+
+            for (int i=3;i>=0;i--,y++) {
+                gotoxy(x+12, y);
+                cout << car2[i] << endl;
+            }
+        }
+
+        if (key == '\r'){
+            controllo = true;
+        }
+
+    }
+    return;
+}
 int Menu::get_scelta() {
     return scelta;
 }
+void Menu::scelta_colore(){
+    int scelta =1;
+    bool controllo = false;
+    char key;
+    keybd_event(VK_SPACE, 0, 0, 0);
+    keybd_event(VK_SPACE, 0, KEYEVENTF_KEYUP, 0);
+    while (controllo == false) {
+        window();
+        gotoxy(x-16,y);
+        cout << "Choose your colour:";
+        key = _getch();
+
+        if (key == 72 && (scelta >= 2 && scelta <=5)){ //up
+            scelta--;
+        }
+
+        if (key == 80 && (scelta >= 1 && scelta <=4)){ //up
+            scelta++;
+        }
+
+        if (key == '\r') {
+            controllo = true;
+        }
+
+        system("cls");
+        switch (scelta) {
+            case 1:
+                gotoxy(x+5,y);
+                cout << "blue";
+                break;
+            case 2:
+                gotoxy(x+5,y);
+                cout << "red";
+                break;
+            case 3:
+                gotoxy(x+5,y);
+                cout << "ochre";
+                break;
+            case 4:
+                gotoxy(x+5,y);
+                cout << "violet";
+                break;
+            case 5:
+                gotoxy(x+5,y);
+                cout << "cyan";
+                break;
+        }
+
+    }
+
+    switch (scelta) {
+        case 1:
+            colore = BLUE;
+        case 2:
+            colore = RED;
+        case 3:
+            colore = OCHRE;
+        case 4:
+            colore = VIOLET;
+        case 5:
+            colore = CYAN;
+    }
+
+};
+colours Menu::get_colore(){
+    return colore;
+}
+
+
 
 Menu::Menu() {
-
+    x = 0;
+    y = 0;
     counter = 1;
     h = NULL;
     p = NULL;
     h = creazione_lista();
-    char key;
-
+    scelta = 1;
 }
 
-int Menu::crea_menu() {
+int Menu::crea_menu(int counter = 1) {
     bool controllo = false;
+    keybd_event(VK_SPACE, 0, 0, 0);
+    keybd_event(VK_SPACE, 0, KEYEVENTF_KEYUP, 0);
     keybd_event(VK_SPACE, 0, 0, 0);
     keybd_event(VK_SPACE, 0, KEYEVENTF_KEYUP, 0);
 
@@ -376,7 +445,8 @@ int Menu::crea_menu() {
     if (counter == 1) {
         string user = presentazione();
         system("cls");
-        scelta = scelta_car();
+        scelta_colore();
+        scelta_car();
         return counter;
         // system("cls");
         // post_menu(user, 130, h);
@@ -396,7 +466,7 @@ int Menu::crea_menu() {
                 controllo = true;
             }
         }
-        crea_menu();
+        crea_menu(2);
     }
 
     else if (counter == 3) {
@@ -416,7 +486,7 @@ int Menu::crea_menu() {
                 controllo = true;
             }
         }
-        crea_menu();
+        crea_menu(3);
     } else {
         return counter;
     }
