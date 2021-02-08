@@ -48,6 +48,11 @@ int InteractableObject::GetObjWidth() {
     return objWidth;
 }
 
+int  InteractableObject::GetPointsExchange(){
+
+    return pointsExchange;
+}
+
 bool InteractableObject::GetIsBonus() {
     return  isBonus;
 }

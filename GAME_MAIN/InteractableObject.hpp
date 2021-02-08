@@ -28,17 +28,16 @@ protected:
 
 public:
     InteractableObject();
-    void MoveObject(class Map* myMap);
+
     void PrintObj(class Map* myMap,string myObj[]);
-    void SetMovement(float myMovement);
+
     void SetObjCoord(short x,short y);
     void SetHitPlayer(bool myHitplayer);
     void SetSpeed(int newSpeed);
-    string GetObj(int index);
     int GetObjWidth();
-    float GetMovement();
     int GetHitbox(int hitboxLenght);
     bool GetIsBonus();
+    int GetPointsExchange();
 
 
 

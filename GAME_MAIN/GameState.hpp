@@ -5,9 +5,10 @@
 #ifndef CHARMAGEDDON_GAMESTATE_HPP
 #define CHARMAGEDDON_GAMESTATE_HPP
 
-#include "Player.hpp"
-#include "InteractableObject.hpp"
-#include "Menu.hpp"
+#include <windows.h>
+#include <iostream>
+
+using namespace std;
 
 
 
@@ -20,25 +21,35 @@ enum state{
 struct ListSpawnedObject{
 
     int pointsWhenSpawned;
-    InteractableObject* MyObject;
+    short xObjSpawnCoord;
+    class InteractableObject* MyObject;
     ListSpawnedObject* next;
+    ListSpawnedObject* previous;
 };
 typedef ListSpawnedObject* ListSpawnedObjectPtr;
+
+
+
 
 class GameState{
 
 protected:
-
-    int points;
+    ListSpawnedObjectPtr head;
+    bool bIdecreasedLvl;
+    int bonusChance;
+    int generalSpawnChance;
+    int points,pointsThisLvl;
     int pointPerTickVariation;
-    int millisecToUpdatePoints,millisecToSpawnObj;
-    short maxNumSpawnedObj;
+    int millisecToUpdatePoints,millisecToSpawn;
+    COORD rightSpawn;
+    COORD leftSpawn;
+    COORD midSpawn;
     short currentLvl;
     int basePointsToIncreaseLvl;
     float levelUpScaling;
     state currentState;
-    Menu *MyMenu;
-    int MenuState;
+    class Menu *MyMenu;
+
 
 
 public:
@@ -46,16 +57,18 @@ public:
     GameState();
     //GameState();
     void SetGameState(state myState);
-    void PointsProgression(Player* myPlayer);
+    void PointsProgression(class Player* myPlayer);
     void AddPoints(int addedPoints);
     void LvlIncrease(InteractableObject* myObject);
     void IncreaseDifficulty(InteractableObject* myObject);
-    void SpawnObjects(InteractableObject* myObject);
+    void InitializeSpwnCoord(class Map* myMap);
+    void SpawnObjects();
     bool Chance(int myPercent);
     int GetPoints();
     short GetCurrentLvl();
+    int Clamp(int myNumber,int lower,int upper);
     state GetCurrentState();
-    GameState GetGameState();
+
 
 };
 
