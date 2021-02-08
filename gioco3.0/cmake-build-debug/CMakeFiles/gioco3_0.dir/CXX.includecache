@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/gioco3.0/Map.cpp
+Map.hpp
+D:/gioco3.0/Map.hpp
+
+D:/gioco3.0/Map.hpp
+windows.h
+-
+cmath
+-
+stdlib.h
+-
+ctime
+-
+bits/stdc++.h
+-
+thread
+-
+chrono
+-
+
+D:/gioco3.0/Player.cpp
+Player.hpp
+D:/gioco3.0/Player.hpp
+
+D:/gioco3.0/Player.hpp
+Map.hpp
+D:/gioco3.0/Map.hpp
+
+D:/gioco3.0/main.cpp
+Map.cpp
+D:/gioco3.0/Map.cpp
+Player.cpp
+D:/gioco3.0/Player.cpp
+
