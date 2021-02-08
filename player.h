@@ -1,4 +1,5 @@
 
+
 #include "Map.hpp"
 #ifndef GIOCO2_0_CAR_H
 #define GIOCO2_0_CAR_H
@@ -10,7 +11,8 @@ protected:
     string car[4]; //sprite della macchina
     string disapp[4];//per far sparire la macchina
     int carWidth;
-    int xCarPosition(float, int);//serve per calcolare la posizione in cui verrà stampata la macchina.
+    int screenWidth;
+    int xCarPosition(float);//serve per calcolare la posizione in cui verrà stampata la macchina.
     colours colour; //decide il colore da dare alla macchina
     void resetAndPrint(Map *,int);
     bool outOfRoad;
@@ -22,6 +24,7 @@ public:
     float getMovement();
     void setMovement(float);
     int getCarWidth();
+    void getRightCarPos(int[]);
 };
 
 #endif //GIOCO2_0_CAR_H
