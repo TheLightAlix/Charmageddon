@@ -62,6 +62,7 @@ public:
     void LvlIncrease(InteractableObject* myObject);
     void IncreaseDifficulty(InteractableObject* myObject);
     void InitializeSpwnCoord(class Map* myMap);
+    void NewNodeSetting(int pointsWhenSpawned,short xObjSpawnCoord,class InteractableObject* MyObject);
     void SpawnObjects();
     bool Chance(int myPercent);
     int GetPoints();

@@ -66,7 +66,10 @@ void GameState::SpawnObjects() {
         if(Chance(generalSpawnChance))
             if(Chance(bonusChance)){
                 Bonus* myBonus= new Bonus();
-                myBonus->
+                if(spawnPoint==2){
+                    myBonus->SetObjCoord(rightSpawn.X,rightSpawn.Y);
+
+                }
             }
 
             }else{
@@ -124,6 +127,16 @@ void GameState::LvlIncrease(InteractableObject* myObject) {
 
 
 }
+
+void GameState::NewNodeSetting(int pointsWhenSpawned,short xObjSpawnCoord,class InteractableObject* MyObject) {
+    ListSpawnedObjectPtr temp_ptr;
+    temp_ptr= new ListSpawnedObject;
+    temp_ptr->pointsWhenSpawned=pointsWhenSpawned;
+    temp_ptr->xObjSpawnCoord=xObjSpawnCoord;
+    temp_ptr->MyObject=MyObject;
+    temp_ptr->next=head;
+    head=temp_ptr;
+    }
 
 
 void GameState::InitializeSpwnCoord(class Map* myMap) {
