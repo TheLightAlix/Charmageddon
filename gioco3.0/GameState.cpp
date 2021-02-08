@@ -1,6 +1,7 @@
 //
-// Created by TheLi on 05/02/2021.
+// Created by TheLi on 08/02/2021.
 //
+
 
 #include "GameState.hpp"
 #include "Player.hpp"
@@ -95,15 +96,15 @@ void GameState::SpawnObjects() {
                     if (spawnPoint == 2) {
                         myObstacle->SetObjCoord(rightSpawn.X, rightSpawn.Y);
                         NewNodeSetting(points, rightSpawn.X, myObstacle);
-                        myObstacle->MoveBonus(myMap, myPlayer, millisecToUpdatePoints);
+                        myObstacle->MoveObstacle(myMap, myPlayer, millisecToUpdatePoints);
                     } else if (spawnPoint == 1) {
                         myObstacle->SetObjCoord(midSpawn.X, midSpawn.Y);
                         NewNodeSetting(points, midSpawn.X, myObstacle);
-                        myObstacle->MoveBonus(myMap, myPlayer, millisecToUpdatePoints);
+                        myObstacle->MoveObstacle(myMap, myPlayer, millisecToUpdatePoints);
                     } else {
                         myObstacle->SetObjCoord(leftSpawn.X, leftSpawn.Y);
                         NewNodeSetting(points, leftSpawn.X, myObstacle);
-                        myObstacle->MoveBonus(myMap, myPlayer, millisecToUpdatePoints);
+                        myObstacle->MoveObstacle(myMap, myPlayer, millisecToUpdatePoints);
                     }
                 }
             }
@@ -178,59 +179,59 @@ void GameState::AddPoints(int addedPoints) {
 void GameState::IncreaseDifficulty() {
 
     if ((currentLvl % 2 == 0) && (millisecToSpawn >= 3200)) {
-          millisecToSpawn -= 100;
-    }else if((currentLvL % 2 == 1) && (millisecToUpdatePoints >= 100)){
+        millisecToSpawn -= 100;
+    }else if((currentLvl % 2 == 1) && (millisecToUpdatePoints >= 100)){
         millisecToUpdatePoints -= 10;
     }
 }
-    void GameState::LvlIncrease() {
+void GameState::LvlIncrease() {
 
-        short temp=currentLvl;
-        while (currentState==PLAYING){
+    short temp=currentLvl;
+    while (currentState==PLAYING){
 
-            if(pointsThisLvl>basePointsToIncreaseLvl){
-                maxLevel++;
-                currentLvl++;
-                pointsThisLvl = 0;
-                IncreaseDifficulty();
-            }
-
+        if(pointsThisLvl>basePointsToIncreaseLvl){
+            maxLevel++;
+            currentLvl++;
+            pointsThisLvl = 0;
+            IncreaseDifficulty();
         }
 
-
-    }
-
-    void GameState::NewNodeSetting(int pointsWhenSpawned,short xObjSpawnCoord,class InteractableObject* MyObject) {
-        ListSpawnedObjectPtr temp_ptr;
-        temp_ptr= new ListSpawnedObject;
-        temp_ptr->pointsWhenSpawned=pointsWhenSpawned;
-        temp_ptr->xObjSpawnCoord=xObjSpawnCoord;
-        temp_ptr->MyObject=MyObject;
-        temp_ptr->next=head;
-        head=temp_ptr;
     }
 
 
-    void GameState::InitializeSpwnCoord(class Map* myMap) {
-        rightSpawn.X=myMap->getERR()-8;
-        leftSpawn.X=myMap->getELF()+1;
-        midSpawn.X=myMap->getScreenWidth()/2;
-        rightSpawn.Y=myMap->getScreenHeight()/(2.3+1);
-        leftSpawn.Y=myMap->getScreenHeight()/(2.3+1);
-        midSpawn.Y=myMap->getScreenHeight()/(2.3+1);
+}
 
-    }
+void GameState::NewNodeSetting(int pointsWhenSpawned,short xObjSpawnCoord,class InteractableObject* MyObject) {
+    ListSpawnedObjectPtr temp_ptr;
+    temp_ptr= new ListSpawnedObject;
+    temp_ptr->pointsWhenSpawned=pointsWhenSpawned;
+    temp_ptr->xObjSpawnCoord=xObjSpawnCoord;
+    temp_ptr->MyObject=MyObject;
+    temp_ptr->next=head;
+    head=temp_ptr;
+}
 
-    bool GameState::Chance(int myPercent) {
 
-        srand(time(0));
-        int temp=rand()%100000;
-        if(temp<=myPercent*1000)
-            return true;
-        else
-            return false;
-    }
-    int GameState::Clamp(int myNumber,int lower,int upper){
+void GameState::InitializeSpwnCoord(class Map* myMap) {
+    rightSpawn.X=myMap->getERR()-8;
+    leftSpawn.X=myMap->getELR()+1;
+    midSpawn.X=myMap->getScreenWidth()/2;
+    rightSpawn.Y=myMap->getScreenHeight()/(2.3+1);
+    leftSpawn.Y=myMap->getScreenHeight()/(2.3+1);
+    midSpawn.Y=myMap->getScreenHeight()/(2.3+1);
 
-        return std::max(lower, std::min(myNumber,upper));
-    }
+}
+
+bool GameState::Chance(int myPercent) {
+
+    srand(time(0));
+    int temp=rand()%100000;
+    if(temp<=myPercent*1000)
+        return true;
+    else
+        return false;
+}
+int GameState::Clamp(int myNumber,int lower,int upper){
+
+    return std::max(lower, std::min(myNumber,upper));
+}

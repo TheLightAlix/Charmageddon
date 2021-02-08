@@ -1,9 +1,11 @@
 //
-// Created by TheLi on 05/02/2021.
+// Created by TheLi on 08/02/2021.
 //
 
-#ifndef CHARMAGEDDON_GAMESTATE_HPP
-#define CHARMAGEDDON_GAMESTATE_HPP
+#ifndef GIOCO3_0_GAMESTATE_HPP
+#define GIOCO3_0_GAMESTATE_HPP
+
+
 
 #include <windows.h>
 #include <iostream>
@@ -45,7 +47,7 @@ protected:
     int generalSpawnChance;
     int points,pointsThisLvl;
     int pointPerTickVariation;
-    float millisecToUpdatePoints,millisecToSpawn;
+    int millisecToUpdatePoints,millisecToSpawn;
     COORD rightSpawn;
     COORD leftSpawn;
     COORD midSpawn;
@@ -80,15 +82,6 @@ public:
 
 };
 
+#endif //GIOCO3_0_GAMESTATE_HPP
 
 
-
-
-
-
-
-
-
-
-
-#endif //CHARMAGEDDON_GAMESTATE_HPP
