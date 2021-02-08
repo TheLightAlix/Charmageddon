@@ -38,6 +38,7 @@ public:
     int GetObjWidth();
     float GetMovement();
     int GetHitbox(int hitboxLenght);
+    bool GetIsBonus();
 
 
 

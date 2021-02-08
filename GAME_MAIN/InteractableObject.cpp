@@ -9,6 +9,8 @@
 InteractableObject::InteractableObject() {
 
 
+
+
 }
 
 
@@ -44,4 +46,8 @@ void InteractableObject::SetHitPlayer(bool myHitplayer) {
 
 int InteractableObject::GetObjWidth() {
     return objWidth;
+}
+
+bool InteractableObject::GetIsBonus() {
+    return  isBonus;
 }
