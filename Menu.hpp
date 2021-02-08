@@ -37,6 +37,7 @@ protected:
     void gotoxy(int x, int y);
     int scelta;
     colours colore;
+    string user;
 
 public:
     ptr creazione_lista ();
@@ -45,7 +46,8 @@ public:
     void scelta_car();
     int get_scelta();
     void post_menu (string user, int score, ptr h);
-    string presentazione();
+    void presentazione();
+    string get_user();
     void scelta_colore();
     colours get_colore();
 

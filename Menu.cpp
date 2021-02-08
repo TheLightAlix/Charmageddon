@@ -126,7 +126,7 @@ void Menu::cout_lista (ptr h) {
         iter = iter->next;
     }
 }
-string Menu::presentazione() {
+void Menu::presentazione() {
     string user;
     window();
     gotoxy(x-24, y-2);
@@ -139,8 +139,11 @@ string Menu::presentazione() {
     gotoxy(x-17, y-2);
     cout << "What's your name again? " << "Username: ";
     cin >> user;
-    return user;
+    return;
 }
+string Menu::get_user(){
+    return user;
+};
 void Menu::post_menu (string user, int score, ptr h) {
     char key;
     window();
