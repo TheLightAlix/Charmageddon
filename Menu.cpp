@@ -446,7 +446,7 @@ int Menu::crea_menu(int counter = 1) {
 
 
     if (counter == 1) {
-        string user = presentazione();
+        presentazione();
         system("cls");
         scelta_colore();
         scelta_car();
