@@ -51,6 +51,7 @@ void Player::resetAndPrint(Map *map,int xCarPos) {
         danger[4]="    /  |  \\";
         danger[5]="     / | \\";
         danger[6]="      / \\";
+        outOfRoad = true;
     }else{
         danger[0] ="               ";
         danger[1]="              ";
@@ -59,10 +60,11 @@ void Player::resetAndPrint(Map *map,int xCarPos) {
         danger[4]="           ";
         danger[5]="          ";
         danger[6]="         ";
+        outOfRoad = false;
     }
     map->setAndPrintStrCol(danger,7,map->getScreenWidth()/2-7,map->getScreenHeight()/2.8,RED);
-    //int i = rand()%1000;
-    //map->runGrass(i); // preso in un qualche modo
+    int i = rand()%1000;
+    map->runGrass(i); // preso in un qualche modo
     map->printMap();
     printCar(map);
 }
@@ -101,6 +103,32 @@ void Player::getRightCarPos(int positions[]) {
     for(int i = 0; i < 4 ;i++ ){
         prova = car[i];
         positions[i] = xCarPos+prova.length()-1;//il meno 1 perchè xCarPos mi dice la prima posizione
+    }
+}
+bool Player::getOutOfRoad() {
+    return outOfRoad;
+}
+
+bool Player::CheckHit(InteractableObject *obj) {
+    int carDesPos[4];
+    int xCarPos = xCarPosition(relPos);
+    getRightCarPos(carDesPos);
+    bool hit = false;
+    int x1 = obj->GetHitbox(0);
+    int x2 = obj->GetHitbox(1);
+    int counter = 0;
+    while ((!hit) && (counter < 4)){
+        if(((x1 >= xCarPos) && (x1 <= carDesPos[counter])) || ((x2 >= xCarPos) && (x2 <= carDesPos[counter]))){
+            hit = true;
+        }
+        counter++;
+    }
+    return hit;
+}
+
+void Player::handleHit(bool hit) {
+    if(hit){
+        //do something
     }
 }
 
