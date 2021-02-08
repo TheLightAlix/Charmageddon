@@ -1,0 +1,3 @@
+"C:\Program Files\JetBrains\CLion 2020.2.5\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\gioco3_0.dir/objects.a
+C:\MinGW\bin\ar.exe cr CMakeFiles\gioco3_0.dir/objects.a @CMakeFiles\gioco3_0.dir\objects1.rsp
+C:\MinGW\bin\g++.exe -g   -Wl,--whole-archive CMakeFiles\gioco3_0.dir/objects.a -Wl,--no-whole-archive  -o gioco3_0.exe -Wl,--out-implib,libgioco3_0.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\gioco3_0.dir\linklibs.rsp
