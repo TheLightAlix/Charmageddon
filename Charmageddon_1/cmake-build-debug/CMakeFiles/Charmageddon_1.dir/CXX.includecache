@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/TheLi/CLionProjects/Charmageddon_1/Menu.cpp
+Menu.hpp
+C:/Users/TheLi/CLionProjects/Charmageddon_1/Menu.hpp
+string
+-
+fstream
+-
+conio.h
+-
+
+C:/Users/TheLi/CLionProjects/Charmageddon_1/Menu.hpp
+Windows.h
+-
+iostream
+-
+
