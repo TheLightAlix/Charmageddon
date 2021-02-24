@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/Charmageddon_1/Map.cpp
+Map.hpp
+D:/Charmageddon_1/Map.hpp
+
+D:/Charmageddon_1/Map.hpp
+windows.h
+-
+cmath
+-
+stdlib.h
+-
+ctime
+-
+bits/stdc++.h
+-
+
