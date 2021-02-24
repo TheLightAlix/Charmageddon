@@ -1,3 +1,0 @@
-D:/gioco3.0/cmake-build-debug/CMakeFiles/gioco3_0.dir
-D:/gioco3.0/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/gioco3.0/cmake-build-debug/CMakeFiles/rebuild_cache.dir
