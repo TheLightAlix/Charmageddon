@@ -1,7 +1,3 @@
-//
-// Created by TheLi on 21/02/2021.
-//
-
 #include "Map.hpp"
 Map::Map() {
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&csbi);
@@ -226,13 +222,26 @@ void Map::printGrass() {
     do {
         str = tmp->line;
         setAndPrintStr(str,0,firstY,GREEN);
-        reverse(str.begin(),str.end());
+        //reverse(str.begin(),str.end());
+        reverseString(&str,0,str.length()-1);
         setAndPrintStr(str,xDx,firstY,GREEN);
         tmp = tmp->prev;
         firstY++;
         xDx++;
     } while (tmp != tail);
 }
+void Map::reverseString(string *string,int left,int right) {
+    if(left >= right){
+        return;
+    }
+    else{
+        char tmp = (*string)[left];
+        (*string)[left] = (*string)[right];
+        (*string)[right] = tmp;
+        reverseString(string, ++left, --right);
+    }
+}
+
 void Map::runGrass(int score) {
     string str;
     ptrBilista tmp = head;
