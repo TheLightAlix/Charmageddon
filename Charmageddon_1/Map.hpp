@@ -1,6 +1,3 @@
-//
-// Created by TheLi on 21/02/2021.
-//
 
 #ifndef CHARMAGEDDON_1_MAP_HPP
 #define CHARMAGEDDON_1_MAP_HPP
@@ -53,6 +50,8 @@ protected:
     int random; //crea randomicità tra le partite.
     ptrBilista head; //ultima riga d'erba(in basso)
     ptrBilista tail; //prima riga d'erba(in alto)
+    //supporto
+    void reverseString(string *,int,int); //serve per invertire una stri
 public:
     Map();
 
@@ -115,6 +114,7 @@ public:
 
     //serve a muovere l'erba da una una riga x, alla riga x-1(quindi quella sotto)
     void runGrass(int);
+
 };
 
 
