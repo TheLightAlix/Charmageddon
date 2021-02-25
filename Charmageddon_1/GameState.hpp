@@ -1,0 +1,97 @@
+//
+// Created by TheLi on 21/02/2021.
+//
+
+#ifndef CHARMAGEDDON_1_GAMESTATE_HPP
+#define CHARMAGEDDON_1_GAMESTATE_HPP
+
+#include <windows.h>
+#include <iostream>
+#include "Player.hpp"
+#include "InteractableObject.hpp"
+#include "Bonus.hpp"
+#include "Obstacle.hpp"
+#include "Menu.hpp"
+#include "Map.hpp"
+#include <thread>
+#include <chrono>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+
+
+enum state{
+    MENU,
+    PLAYING,
+    GAMEOVER
+};
+
+struct ListSpawnedObject{
+
+    int pointsWhenSpawned;
+    short xObjSpawnCoord;
+    class InteractableObject* MyObject;
+    ListSpawnedObject* next;
+    ListSpawnedObject* pre;
+};
+typedef ListSpawnedObject* ListSpawnedObjectPtr;
+
+
+
+
+class GameState{
+
+protected:
+    class Map *myMap;
+    class Player *myPlayer;
+    ListSpawnedObjectPtr head;
+
+    bool bIdecreasedLvl;
+    int bonusChance;
+    int generalSpawnChance;
+    int points,pointsThisLvl;
+    int pointPerTickVariation;
+    float millisecToUpdatePoints,millisecToSpawn;
+    float millisecToMove;
+    COORD rightSpawn;
+    COORD leftSpawn;
+    COORD midSpawn;
+    int xSpawn;
+    int ySpawn;
+    short currentLvl;
+    int basePointsToIncreaseLvl;
+    float levelUpScaling;
+    state currentState;
+    class Menu *MyMenu;
+    int maxLevel;
+    bool Chance(int myPercent);
+    void SwitchSpawnPos(int lessThanThree);
+    time_t spawn;
+    time_t game_time;
+
+
+public:
+
+    GameState();
+    //GameState();
+    void SetGameState(state myState);
+    void PointsProgression(class Player* myPlayer);
+    void AddPoints(int addedPoints);
+    void LvlIncrease();
+    void IncreaseDifficulty();
+    void InitializeSpwnCoord(class Map* myMap);
+    void NewNodeSetting(int pointsWhenSpawned,short xObjSpawnCoord,class InteractableObject* MyObject);
+    void SpawnObjects();
+    void RecyclingOldObjects();
+    int GetPoints();
+    short GetCurrentLvl();
+    int Clamp(int myNumber,int lower,int upper);
+    state GetCurrentState();
+    void Move();
+    bool Timer(float elapsedTime,float numToMillisec);
+
+};
+
+#endif //CHARMAGEDDON_1_GAMESTATE_HPP
