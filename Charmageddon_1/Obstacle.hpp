@@ -19,9 +19,8 @@ protected:
 public:
     Obstacle();
     string GetObstacle(int index);
-    void MoveObstacle(class Map* myMap,class Player *myPlayer, int);
+    bool MoveObject(class Map* myMap,class Player *myPlayer);
 
 };
-
 
 #endif //CHARMAGEDDON_1_OBSTACLE_HPP

@@ -33,8 +33,8 @@ GameState::GameState(){
     MyMenu=new Menu();
     myMap = new Map();
     myPlayer = new Player(myMap,1,WHITE,this);//da completare con il menu nuovo
-    head=new ListSpawnedObject;
-
+    headSpawned=new ListSpawnedObject;
+    headScreen=new ListOnScreenObject;
     bIdecreasedLvl=false;
     maxLevel = 0;
 }
@@ -47,7 +47,7 @@ void GameState::SetGameState(state myState) {
     switch(currentState) {
         case MENU :
 
-            points=MyMenu->crea_menu();
+            points=MyMenu->crea_menu(1);
 
 
             break;
@@ -132,8 +132,6 @@ void GameState::IncreaseDifficulty() {
         }
 
 
-
-
     }
 
     void GameState::NewNodeSetting(int pointsWhenSpawned,short xObjSpawnCoord,class InteractableObject* MyObject) {
@@ -142,11 +140,50 @@ void GameState::IncreaseDifficulty() {
         temp_ptr->pointsWhenSpawned=pointsWhenSpawned;
         temp_ptr->xObjSpawnCoord=xObjSpawnCoord;
         temp_ptr->MyObject=MyObject;
-        temp_ptr->next=head;
-        head=temp_ptr;
-        temp_ptr->next->pre=head;
+        temp_ptr->next=headSpawned;
+        headSpawned=temp_ptr;
+        temp_ptr->next->pre=headSpawned;
+        //
+        ListOnScreenObjectPtr t_ptr;
+        t_ptr = new ListOnScreenObject;
+        t_ptr->xObjSpawnCoord=xObjSpawnCoord;
+        t_ptr->MyObject=MyObject;
+        t_ptr->next=headScreen;
+        headScreen=t_ptr;
+        t_ptr->next->pre=headScreen;
 
     }
+
+
+    void GameState::RecyclingOldObjects(ListSpawnedObjectPtr ptr) {
+
+        ListSpawnedObjectPtr tmp = headSpawned;
+        if(points < 0){
+            SetGameState(GAMEOVER);
+        }
+        else{
+            ptr->MyObject->SetObjCoord(ptr->xObjSpawnCoord,ySpawn);
+            //movement
+        }
+    }
+
+void GameState::SearchObjList(ListSpawnedObjectPtr tmp, int points){
+
+    if (tmp){
+        tmp = headSpawned;
+    }
+
+}
+
+
+void GameState::DeleteFromObjOnScreenList(bool shouldIRemoveObj,ListOnScreenObjectPtr index){
+
+    if(shouldIRemoveObj){
+        if(index->pre==NULL){
+
+        }
+    }else return;
+}
 
 
     void GameState::InitializeSpwnCoord(class Map* myMap) {
@@ -173,6 +210,17 @@ void GameState::IncreaseDifficulty() {
 
         return std::max(lower, std::min(myNumber,upper));
     }
+
+
+bool GameState::Timer(time_t timeStart,time_t timeCheck, float numToMillisec){
+    float elapsedTime=difftime(timeCheck,timeStart)*1000;
+
+    float tmp = elapsedTime / numToMillisec;
+    if(tmp >= 1)
+        return true;
+    else
+        return false;
+}
 
 
     void GameState::SwitchSpawnPos(int lessThanThree){

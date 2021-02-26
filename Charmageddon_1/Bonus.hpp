@@ -19,7 +19,7 @@ protected:
 public:
     Bonus();
     string GetBonus(int index);
-    void MoveBonus(Map* myMap,class Player *myPlayer,int millisec);
+    void MoveObject(Map* myMap,class Player *myPlayer);
 };
 
 

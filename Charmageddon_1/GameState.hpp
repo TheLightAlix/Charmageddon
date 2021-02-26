@@ -27,7 +27,21 @@ struct ListSpawnedObject{
     ListSpawnedObject* next;
     ListSpawnedObject* pre;
 };
+
+
+struct ListOnScreenObject{
+
+    short xObjSpawnCoord;
+    class InteractableObject* MyObject;
+    ListOnScreenObject* next;
+    ListOnScreenObject* pre;
+};
+
+
+
+
 typedef ListSpawnedObject* ListSpawnedObjectPtr;
+typedef ListOnScreenObject* ListOnScreenObjectPtr;
 
 
 
@@ -37,8 +51,8 @@ class GameState{
 protected:
     class Map *myMap;
     class Player *myPlayer;
-    ListSpawnedObjectPtr head;
-
+    ListSpawnedObjectPtr headSpawned;
+    ListOnScreenObjectPtr headScreen;
     bool bIdecreasedLvl;
     int bonusChance;
     int generalSpawnChance;
@@ -73,12 +87,14 @@ public:
     void InitializeSpwnCoord(class Map* myMap);
     void NewNodeSetting(int pointsWhenSpawned,short xObjSpawnCoord,class InteractableObject* MyObject);
     void SpawnObjects();
-    void RecyclingOldObjects();
-
+    void RecyclingOldObjects(ListSpawnedObjectPtr ptr);
+    void SearchObjList(ListSpawnedObjectPtr tmp, int points);
     int GetPoints();
     short GetCurrentLvl();
     int Clamp(int myNumber,int lower,int upper);
     state GetCurrentState();
+    bool Timer(time_t timeStart,time_t timeCheck, float numToMillisec);
+    void DeleteFromObjOnScreenList(bool shouldIRemoveObj,ListOnScreenObjectPtr index);
 
 
 };

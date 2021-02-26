@@ -15,9 +15,11 @@ Bonus::Bonus(){
     fruit[1]="(     )";
     fruit[0]="  `\"'  ";
 
-    speed=1;
     objWidth=7;
     pointsExchange=500;
+    time(&timeSpawn);
+    hit = false;
+    bool onScreen = true;
     isBonus=true;
 
     clearFru[3]="       ";
@@ -33,22 +35,24 @@ Bonus::Bonus(){
 
 
 //da cambiare senza thread
-void Bonus::MoveBonus(Map* myMap,Player *myPlayer,int millisec){ //aggiungere un thread movement
+void Bonus::MoveObject(Map *myMap,Player *myPlayer){
+    time(&timeMove);
+    /*
     for(int index =3 ;index>-1;index--) {
         myMap->setAndPrintStr(fruit[index], objCoord.X, objCoord.Y, WHITE);
         objCoord.Y++;
-    }
-    bool hit = false;
-    bool onScreen = true;
+    }*/
+    float elapsedTime = difftime(timeMove,timeSpawn)*1000;
+
     int screenHeight = myMap->getScreenHeight();
-    while( (!hit) && (onScreen))
+    //da rivedere e da controllare il timer.
+    if( (!hit) && (onScreen) && (elapsedTime/millisecToMove >=1)) // controllare che la macchina non venga sovrascritta in stampa
     {
-        //this_thread::sleep_for(chrono::milliseconds(millisec));
         for(int index =3 ;index>-1;index--) {
             myMap->setAndPrintStr(clearFru[index], objCoord.X, objCoord.Y, WHITE);
             objCoord.Y++;
         }
-        objCoord.Y=objCoord.Y-speed+4;
+        objCoord.Y=objCoord.Y-4+1;
         for(int index =3 ;index>-1;index--) {
             myMap->setAndPrintStr(fruit[index], objCoord.X, objCoord.Y, WHITE);
             objCoord.Y++;
@@ -57,10 +61,11 @@ void Bonus::MoveBonus(Map* myMap,Player *myPlayer,int millisec){ //aggiungere un
         if((objCoord.Y >= screenHeight-3) && (objCoord.Y <= screenHeight)){
             hit = myPlayer->CheckHit(this);
             myPlayer->handleHit(hit,pointsExchange);
-            if(objCoord.Y >= screenHeight){ //se è così cancella il bouns
-                    onScreen = false;
+            if(objCoord.Y >= screenHeight){ //se è così cancella il bonus
+                onScreen = false;
             }
         }
+        time(&timeSpawn);
     }
     for(int index =3 ;index>-1;index--) {
         myMap->setAndPrintStr(clearFru[index], objCoord.X, objCoord.Y, WHITE);

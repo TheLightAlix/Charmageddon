@@ -14,9 +14,11 @@ Obstacle::Obstacle(){
     enemy[1]="(o\\./o)";
     enemy[0]=" \"   \" ";
 
-    speed=1;
     objWidth=7;
     pointsExchange=-500;
+    time(&timeSpawn);
+    hit = false;
+    bool onScreen = true;
     isBonus= false;
 
     clearEn[3]="       ";
@@ -33,33 +35,39 @@ Obstacle::Obstacle(){
 }
 
 //da cambiare senza thread
-void Obstacle::MoveObstacle(class Map* myMap, Player *myPlayer, int millisec){
-    bool hit = false;
-    bool onScreen = true;
+bool Obstacle::MoveObject(Map* myMap, Player *myPlayer){
+    time(&timeMove);
+    //metti timer
+
     int screenHeight = myMap->getScreenHeight();
-    while( (!hit) && (onScreen)){
-        //this_thread::sleep_for(chrono::milliseconds(millisec));
-        for(int index =3 ;index>-1;index--) {
-            myMap->setAndPrintStr(clearEn[index], objCoord.X, objCoord.Y, WHITE);
-            objCoord.Y++;
+    if( (!hit) && (onScreen)) {
+        if (/*METTI TIMER*/) {
+            for (int index = 3; index > -1; index--) {
+                myMap->setAndPrintStr(clearEn[index], objCoord.X, objCoord.Y, WHITE);
+                objCoord.Y++;
+            }
+            objCoord.Y = objCoord.Y - 4 + 1;
+
+            for (int index = 3; index > -1; index--) {
+                myMap->setAndPrintStr(enemy[index], objCoord.X, objCoord.Y, WHITE);
+                objCoord.Y++;
+            }
+            if ((objCoord.Y >= screenHeight - 3) && (objCoord.Y <= screenHeight)) {
+                hit = myPlayer->CheckHit(this);
+                myPlayer->handleHit(hit, pointsExchange);
+                if (objCoord.Y == screenHeight) { //se è così cancella il bouns
+                    onScreen = false;
+                }
+            }
+            time(&timeSpawn);
         }
-        objCoord.Y=objCoord.Y-speed+4;
-        for(int index =3 ;index>-1;index--) {
-            myMap->setAndPrintStr(enemy[index], objCoord.X, objCoord.Y, WHITE);
-            objCoord.Y++;
+    }else {
+        for (int index = 3; index > -1; index--) {
+            myMap->setAndPrintStr(clearEn[index], objCoord.X, objCoord.Y, WHITE);
+            objCoord.Y--;
         }
 
-        if((objCoord.Y >= screenHeight-3) && (objCoord.Y <= screenHeight)){
-            bool hit = myPlayer->CheckHit(this);
-            myPlayer->handleHit(hit,pointsExchange);
-            if(objCoord.Y == screenHeight){ //se è così cancella il bouns
-                onScreen = false;
-            }
-        }
-    }
-    for(int index =3 ;index>-1;index--) {
-        myMap->setAndPrintStr(clearEn[index], objCoord.X, objCoord.Y, WHITE);
-        objCoord.Y--;
+
     }
 }
 

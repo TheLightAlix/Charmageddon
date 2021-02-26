@@ -16,24 +16,26 @@ using namespace std;
 class InteractableObject{
 
 protected:
-    int speed;
     COORD objCoord;
     int objWidth;
     bool hitPlayer;
     bool isBonus;
     int hitbox[2];
     int pointsExchange;
-
+    time_t timeSpawn;
+    time_t timeMove;
+    float millisecToMove;
+    bool hit;
+    bool onScreen;
 
 
 public:
     InteractableObject();
 
     void PrintObj(class Map* myMap,string myObj[]);
-
+    bool MoveObject(Map* myMap,class Player *myPlayer);
     void SetObjCoord(short x,short y);
     void SetHitPlayer(bool myHitplayer);
-    void SetSpeed(int newSpeed);
     int GetObjWidth();
     int GetHitbox(int hitboxLenght);
     bool GetIsBonus();

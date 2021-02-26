@@ -10,11 +10,11 @@ InteractableObject::InteractableObject() {
 
 
 
-
 }
 
+void InteractableObject::MoveObject(Map* myMap,class Player *myPlayer) {
 
-
+}
 
 void InteractableObject::SetObjCoord(short x, short y) {
 
@@ -23,10 +23,6 @@ void InteractableObject::SetObjCoord(short x, short y) {
 }
 
 
-void InteractableObject::SetSpeed(int newSpeed){
-
-    speed=newSpeed;
-}
 
 int InteractableObject::GetHitbox(int hitboxLenght){
 
