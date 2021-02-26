@@ -292,6 +292,7 @@ void Menu::scelta_car() {
         }
 
     }
+    system ("cls");
     return;
 }
 int Menu::get_scelta() {
@@ -309,11 +310,11 @@ void Menu::scelta_colore(){
         cout << "Choose your colour:";
         key = _getch();
 
-        if (key == 72 && (scelta >= 2 && scelta <=5)){ //up
+        if (key == 72 && (scelta >= 2 && scelta <=6)){ //up
             scelta--;
         }
 
-        if (key == 80 && (scelta >= 1 && scelta <=4)){ //up
+        if (key == 80 && (scelta >= 1 && scelta <=5)){ //up
             scelta++;
         }
 
@@ -343,6 +344,10 @@ void Menu::scelta_colore(){
                 gotoxy(x+5,y);
                 cout << "cyan";
                 break;
+            default:
+                gotoxy(x+5,y);
+                cout << "white";
+                break;
         }
 
     }
@@ -350,14 +355,22 @@ void Menu::scelta_colore(){
     switch (scelta) {
         case 1:
             colore = BLUE;
+            break;
         case 2:
             colore = RED;
+            break;
         case 3:
             colore = OCHRE;
+            break;
         case 4:
             colore = VIOLET;
+            break;
         case 5:
             colore = CYAN;
+            break;
+        default:
+            colore = WHITE;
+            break;
     }
 
 };
