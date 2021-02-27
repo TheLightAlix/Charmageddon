@@ -1,8 +1,18 @@
 //
 // Created by TheLi on 21/02/2021.
 //
+
 #ifndef CHARMAGEDDON_1_GAMESTATE_HPP
 #define CHARMAGEDDON_1_GAMESTATE_HPP
+
+#include <windows.h>
+#include <iostream>
+#include <chrono>
+
+
+using namespace std;
+
+
 
 #include <windows.h>
 #include <iostream>
@@ -12,10 +22,9 @@
 #include "Obstacle.hpp"
 #include "Menu.hpp"
 #include "Map.hpp"
-#include <thread>
-#include <chrono>
 #include <cstdlib>
-#include <ctime>
+#include <chrono>
+#include <unistd.h>
 
 
 using namespace std;
@@ -62,11 +71,13 @@ protected:
     class Player *myPlayer;
     ListSpawnedObjectPtr headSpawned;
     ListOnScreenObjectPtr headScreen;
+    ListSpawnedObjectPtr object;
     bool bIdecreasedLvl;
     int bonusChance;
     int generalSpawnChance;
     int points,pointsThisLvl;
     int pointPerTickVariation;
+    int giftedPoints;
     float millisecToUpdatePoints,millisecToSpawn;
     COORD rightSpawn;
     COORD leftSpawn;
@@ -81,9 +92,9 @@ protected:
     int maxLevel;
     bool Chance(int myPercent);
     void SwitchSpawnPos(int lessThanThree);
-    time_t spawn;
-    time_t game_time;
-    int millisecToMove;
+    bool bIsRecycling;
+    chrono::steady_clock::time_point spawn;
+    chrono::steady_clock::time_point game_time;
 
 public:
 
@@ -104,9 +115,9 @@ public:
     short GetCurrentLvl();
     int Clamp(int myNumber,int lower,int upper);
     state GetCurrentState();
-    bool Timer(time_t timeStart,time_t timeCheck, float numToMillisec);
-    void DeleteFromObjOnScreenList(bool shouldIRemoveObj,ListOnScreenObjectPtr *index);
-
+    bool Timer(chrono::steady_clock::time_point timeStart,chrono::steady_clock::time_point timeCheck, float numToMillisec);
+    void DeleteFromObjOnScreenList(bool shouldIRemoveObj,ListOnScreenObjectPtr index);
+    void testLista();
 
 };
 

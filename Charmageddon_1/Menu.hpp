@@ -43,7 +43,7 @@ public:
     void cout_lista (ptr h);
     void scelta_car();
     int get_scelta();
-    void post_menu (string user, int score, ptr h);
+    void post_menu (string user, int score);
     void presentazione();
     string get_user();
     void scelta_colore();

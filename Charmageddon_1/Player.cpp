@@ -1,6 +1,10 @@
+//
+// Created by TheLi on 21/02/2021.
+//
 
 #include "Player.hpp"
-
+#include "GameState.hpp"
+#include "InteractableObject.hpp"
 
 Player::Player(Map *map,int type,colours col,GameState *gm) {
     relPos = 0.0;
@@ -113,16 +117,18 @@ bool Player::getOutOfRoad() {
     return outOfRoad;
 }
 
-bool Player::CheckHit(InteractableObject *obj) {
+bool Player::CheckHit(InteractableObject *obj,int heightCheck) {
+    //se heightCheck == 2 devo guardare le due righe più in alto della macchina.
     int carDesPos[4];
+    int end = 3; //ultima posizione valida in carDesPos
     int xCarPos = xCarPosition(relPos);
     getRightCarPos(carDesPos);
     bool hit = false;
     int x1 = obj->GetHitbox(0);
     int x2 = obj->GetHitbox(1);
     int counter = 0;
-    while ((!hit) && (counter < 4)){
-        if(((x1 >= xCarPos) && (x1 <= carDesPos[counter])) || ((x2 >= xCarPos) && (x2 <= carDesPos[counter]))){
+    while ((!hit) && (counter < heightCheck)){
+        if(((x1 >= xCarPos) && (x1 <= carDesPos[end-counter])) || ((x2 >= xCarPos) && (x2 <= carDesPos[end-counter]))){
             hit = true;
         }
         counter++;
@@ -130,9 +136,6 @@ bool Player::CheckHit(InteractableObject *obj) {
     return hit;
 }
 
-void Player::handleHit(bool hit, int points) {
-    if(hit){
-        myGameState->AddPoints(points);
-    }
+void Player::handleHit( int points) {
+    myGameState->AddPoints(points);
 }
-

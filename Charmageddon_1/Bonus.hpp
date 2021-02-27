@@ -18,9 +18,11 @@ protected:
 
 public:
     Bonus();
+    void PrintObj(class Map* myMap,string myObj[]) override;
     string GetBonus(int index);
     bool MoveObject(Map* myMap,class Player *myPlayer,class GameState *myGameState) override;
 };
+
 
 
 #endif //CHARMAGEDDON_1_BONUS_HPP

@@ -1,6 +1,7 @@
 //
 // Created by TheLi on 21/02/2021.
 //
+
 #include "Menu.hpp"
 
 
@@ -126,7 +127,6 @@ void Menu::cout_lista (ptr h) {
     }
 }
 void Menu::presentazione() {
-    string user;
     window();
     gotoxy(x-24, y-2);
     cout << "Hello World! Good to see you again! Take a ride!" <<endl <<endl;
@@ -143,7 +143,8 @@ void Menu::presentazione() {
 string Menu::get_user(){
     return user;
 };
-void Menu::post_menu (string user, int score, ptr h) {
+void Menu::post_menu (string user, int score) {
+    system("cls");
     char key;
     window();
     gotoxy(x-9, y);
@@ -189,7 +190,7 @@ void Menu::post_menu (string user, int score, ptr h) {
         while (esc == false) {
             window();
             gotoxy(x-19, y+12);
-            cout << "Press ESC to go back to the main Menu!" << endl;
+            cout << "Press ESC to esc!" << endl;
             key = _getch();
             if (key == 27) {
                 esc = true;

@@ -4,41 +4,45 @@
 
 #include "InteractableObject.hpp"
 #include "Map.hpp"
-#include "GameState.hpp"
+
+
+#include <windows.h>
+#include <string>
+#include <iostream>
+#include <chrono>
+
+
+using namespace std;
 
 
 InteractableObject::InteractableObject() {
 
 
-
 }
 
 bool InteractableObject::MoveObject(Map* myMap,class Player *myPlayer,GameState *myGameState) {
-
+    return true;
 }
 
 void InteractableObject::SetObjCoord(short x, short y) {
-
     objCoord.X=x;
     objCoord.Y=y;
+    SetHitbox(x);
 }
 
-
+void InteractableObject::SetHitbox(int hit1) {
+    hitbox[0] = hit1;
+    hitbox[1] = hit1 + objWidth -1;
+}
 
 int InteractableObject::GetHitbox(int hitboxLenght){
-
-    if(hitboxLenght<2&&hitboxLenght>-1)
-        return hitbox[hitboxLenght];
+    return hitbox[hitboxLenght];
 }
 
 void InteractableObject::PrintObj(Map *myMap, string myObj[]) {
 
 }
 
-void InteractableObject::SetHitPlayer(bool myHitplayer) {
-
-    hitPlayer=myHitplayer;
-}
 
 int InteractableObject::GetObjWidth() {
     return objWidth;
@@ -55,6 +59,10 @@ bool InteractableObject::GetIsBonus() {
 short InteractableObject::getY() {
     return objCoord.Y;
 }
-short InteractableObject::getX(){
-    return objCoord.X;
+
+void InteractableObject::Reset(short myYCoord){
+
+    hit=false;
+    onScreen=true;
+    objCoord.Y=myYCoord;
 }

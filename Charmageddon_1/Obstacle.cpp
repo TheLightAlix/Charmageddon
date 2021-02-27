@@ -3,7 +3,9 @@
 //
 
 #include "Obstacle.hpp"
-
+#include "Map.hpp"
+#include "Player.hpp"
+#include "GameState.hpp"
 
 
 Obstacle::Obstacle(){
@@ -14,56 +16,48 @@ Obstacle::Obstacle(){
     enemy[0]=" \"   \" ";
 
     objWidth=7;
-    pointsExchange=-500;
-    time(&timeSpawn);
+    pointsExchange=-5000;
+    spawn = std::chrono::steady_clock::now();
+    millisecToMove = 300;
     hit = false;
-    millisecToMove = 500;
-    bool onScreen = true;
+    onScreen = true;
     isBonus= false;
 
     clearEn[3]="       ";
     clearEn[2]="       ";
     clearEn[1]="       ";
     clearEn[0]="       ";
-
-
-    hitParticlesMal[3]="X     X";
-    hitParticlesMal[2]=" X  X  ";
-    hitParticlesMal[1]="  X   X";
-    hitParticlesMal[0]=" X  X  ";
-
 }
 
-//da cambiare senza thread
 bool Obstacle::MoveObject(Map* myMap, Player *myPlayer,GameState *myGameState){
-    time(&timeMove);
-    //metti timer
     int screenHeight = myMap->getScreenHeight();
-    myMap->setCursor(0,screenHeight);
-    cout<<objCoord.Y;
+    move = std::chrono::steady_clock::now();
     if( (!hit) && (onScreen)) {
-        if (myGameState->Timer(timeSpawn,timeMove,millisecToMove)) {
-            myMap->setAndPrintStrCol(clearEn,clearEn->length(),objCoord.X,objCoord.Y,WHITE);
+        if(myGameState->Timer(spawn,move,millisecToMove)){
+            PrintObj(myMap,clearEn);
             objCoord.Y++;
-            myMap->setAndPrintStrCol(enemy,enemy->length(),objCoord.X,objCoord.Y,WHITE);
+            PrintObj(myMap,enemy);
             if ((objCoord.Y >= screenHeight - 3) && (objCoord.Y  <= screenHeight)) {
-                hit = myPlayer->CheckHit(this);
-                myPlayer->handleHit(hit, pointsExchange);
+                hit = myPlayer->CheckHit(this,objCoord.Y-screenHeight+4);
+                if(hit){
+                    myPlayer->handleHit(pointsExchange);
+                    return MoveObject(myMap,myPlayer,myGameState);
+                }
                 if (objCoord.Y == screenHeight) { //se è così cancella il bouns
                     onScreen = false;
                 }
             }
-            time(&timeSpawn);
+            spawn =  std::chrono::steady_clock::now();
         }
         return false;
     }else {
-        for (int index = 3; index > -1; index--) {
-            myMap->setAndPrintStr(clearEn[index], objCoord.X, objCoord.Y, WHITE);
-            objCoord.Y--;
-        }
+        PrintObj(myMap,clearEn);
         return true;
-
     }
+}
+
+void Obstacle::PrintObj(class Map *myMap, string *myObj) {
+    myMap->setAndPrintStrCol(myObj,myObj->length(),objCoord.X,objCoord.Y,WHITE);
 }
 
 string Obstacle::GetObstacle(int index) {

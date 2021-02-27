@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <windows.h>
 #include "Player.hpp"
@@ -17,7 +18,7 @@ void ShowConsoleCursor(bool showFlag);
 int main() {
     ShowConsoleCursor(false);
     GameState* MyGame = new GameState();
-    MyGame->SetGameState(MENU);
+    MyGame->SetGameState(PLAYING);
 
 
     return 0;

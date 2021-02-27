@@ -7,8 +7,6 @@
 
 
 #include "InteractableObject.hpp"
-#include "Map.hpp"
-#include "Player.hpp"
 
 class Obstacle : public InteractableObject
 {
@@ -20,9 +18,11 @@ protected:
 
 public:
     Obstacle();
+    void PrintObj(class Map *myMap, string *myObj) override;
     string GetObstacle(int index);
     bool MoveObject(class Map* myMap,class Player *myPlayer,class GameState *myGameState) override;
-
 };
+
+
 
 #endif //CHARMAGEDDON_1_OBSTACLE_HPP

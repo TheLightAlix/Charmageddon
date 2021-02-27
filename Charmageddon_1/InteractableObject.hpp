@@ -9,7 +9,14 @@
 #include <windows.h>
 #include <string>
 #include <iostream>
-#include <ctime>
+
+using namespace std;
+
+
+#include <windows.h>
+#include <string>
+#include <iostream>
+#include <chrono>
 
 
 using namespace std;
@@ -20,30 +27,30 @@ class InteractableObject{
 protected:
     COORD objCoord;
     int objWidth;
-    bool hitPlayer;
     bool isBonus;
     int hitbox[2];
     int pointsExchange;
-    time_t timeSpawn;
-    time_t timeMove;
-    float millisecToMove;
     bool hit;
     bool onScreen;
+    chrono::steady_clock::time_point spawn;
+    chrono::steady_clock::time_point move;
+    float millisecToMove;
+
 
 
 public:
     InteractableObject();
 
-    void PrintObj(class Map* myMap,string myObj[]);
+    virtual void PrintObj(class Map* myMap,string myObj[]);
     virtual bool MoveObject(Map* myMap,class Player *myPlayer,class GameState *myGameState);
     void SetObjCoord(short x,short y);
-    void SetHitPlayer(bool myHitplayer);
     int GetObjWidth();
+    void SetHitbox(int hit1);
     int GetHitbox(int hitboxLenght);
     bool GetIsBonus();
     int GetPointsExchange();
     short getY();
-    short getX();
+    void Reset(short myYCoord);
 
 
 };

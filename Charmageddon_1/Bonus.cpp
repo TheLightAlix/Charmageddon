@@ -2,10 +2,13 @@
 // Created by TheLi on 21/02/2021.
 //
 
-
 #include "Bonus.hpp"
 #include "Map.hpp"
 #include "Player.hpp"
+#include <thread>
+#include <chrono>
+#include "GameState.hpp"
+
 
 
 Bonus::Bonus(){
@@ -16,53 +19,49 @@ Bonus::Bonus(){
     fruit[0]="  `\"'  ";
 
     objWidth=7;
-    pointsExchange=500;
-    time(&timeSpawn);
+    //ERRORE IN QUANDO METTO HITBOX, PERCHè NELLA DICHIARAZIONE DELL'GGETTO NON CI STANNO LE COORDINATE. PERCHè è FATTO COSì?
+    pointsExchange=2500;
+    spawn = std::chrono::steady_clock::now();
+    millisecToMove = 300;
     hit = false;
-    millisecToMove = 4000;
-    bool onScreen = true;
+    onScreen = true;
     isBonus=true;
 
     clearFru[3]="       ";
     clearFru[2]="       ";
     clearFru[1]="       ";
     clearFru[0]="       ";
-
-    hitPariclesBon[3]="*+    +";
-    hitPariclesBon[2]="   +   ";
-    hitPariclesBon[1]=" ++  + ";
-    hitPariclesBon[0]="+     +";
 }
 
-
+void Bonus::PrintObj(class Map *myMap, string *myObj) {
+    myMap->setAndPrintStrCol(myObj,myObj->length(),objCoord.X,objCoord.Y,WHITE);
+}
 
 bool Bonus::MoveObject(Map *myMap,Player *myPlayer,GameState *myGameState) {
-    time(&timeMove);
+    move = std::chrono::steady_clock::now();
     int screenHeight = myMap->getScreenHeight();
-    myMap->setCursor(0,screenHeight);
-    cout<<objCoord.Y;
     if( (!hit) && (onScreen)) // controllare che la macchina non venga sovrascritta in stampa
     {
-        if(myGameState->Timer(timeSpawn,timeMove,millisecToMove) && objCoord.Y<=screenHeight){
-            myMap->setAndPrintStrCol(clearFru,clearFru->length(),objCoord.X,objCoord.Y,WHITE);
+        if(myGameState->Timer(spawn,move,millisecToMove)){
+            PrintObj(myMap,clearFru);
             objCoord.Y++;
-            myMap->setAndPrintStrCol(fruit,fruit->length(),objCoord.X,objCoord.Y,WHITE);
+            PrintObj(myMap,fruit);
             if((objCoord.Y >= screenHeight-3) && (objCoord.Y <= screenHeight)){
-                hit = myPlayer->CheckHit(this);
-                myPlayer->handleHit(hit,pointsExchange);
+                hit = myPlayer->CheckHit(this,objCoord.Y-screenHeight+4);
+                if(hit){
+                    myPlayer->handleHit(pointsExchange);
+                    return MoveObject(myMap,myPlayer,myGameState);
+                }
                 if(objCoord.Y == screenHeight){ //se è così cancella il bonus
                     onScreen = false;
                 }
             }
-            time(&timeSpawn);
+            spawn =  std::chrono::steady_clock::now();
         }
         return false;
     }
     else{
-        for(int index =3 ;index>-1;index--) {
-            myMap->setAndPrintStr(clearFru[index], objCoord.X, objCoord.Y, WHITE);
-            objCoord.Y--;
-        }
+        PrintObj(myMap,clearFru);
         return true;
     }
 
