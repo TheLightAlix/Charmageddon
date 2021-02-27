@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Charmageddon_1"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="D:/Charmageddon_prova/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Charmageddon_1">
+				<Option output="D:/Charmageddon_prova/cmake-build-debug/Charmageddon_1.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/Charmageddon_prova/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/9.2.0/include/c++"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/9.2.0/include/c++/mingw32"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/9.2.0/include/c++/backward"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/9.2.0/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/9.2.0/../../../../include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/9.2.0/include-fixed"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 Charmageddon_1"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Charmageddon_1/fast">
+				<Option output="D:/Charmageddon_prova/cmake-build-debug/Charmageddon_1.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/Charmageddon_prova/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/9.2.0/include/c++"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/9.2.0/include/c++/mingw32"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/9.2.0/include/c++/backward"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/9.2.0/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/9.2.0/../../../../include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/9.2.0/include-fixed"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 Charmageddon_1/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="D:/Charmageddon_prova/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="D:/Charmageddon_prova/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;D:/Charmageddon_prova/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="D:/Charmageddon_prova/Bonus.cpp">
+			<Option target="Charmageddon_1"/>
+		</Unit>
+		<Unit filename="D:/Charmageddon_prova/Bonus.hpp">
+			<Option target="Charmageddon_1"/>
+		</Unit>
+		<Unit filename="D:/Charmageddon_prova/GameState.cpp">
+			<Option target="Charmageddon_1"/>
+		</Unit>
+		<Unit filename="D:/Charmageddon_prova/GameState.hpp">
+			<Option target="Charmageddon_1"/>
+		</Unit>
+		<Unit filename="D:/Charmageddon_prova/InteractableObject.cpp">
+			<Option target="Charmageddon_1"/>
+		</Unit>
+		<Unit filename="D:/Charmageddon_prova/InteractableObject.hpp">
+			<Option target="Charmageddon_1"/>
+		</Unit>
+		<Unit filename="D:/Charmageddon_prova/Map.cpp">
+			<Option target="Charmageddon_1"/>
+		</Unit>
+		<Unit filename="D:/Charmageddon_prova/Map.hpp">
+			<Option target="Charmageddon_1"/>
+		</Unit>
+		<Unit filename="D:/Charmageddon_prova/Menu.cpp">
+			<Option target="Charmageddon_1"/>
+		</Unit>
+		<Unit filename="D:/Charmageddon_prova/Menu.hpp">
+			<Option target="Charmageddon_1"/>
+		</Unit>
+		<Unit filename="D:/Charmageddon_prova/Obstacle.cpp">
+			<Option target="Charmageddon_1"/>
+		</Unit>
+		<Unit filename="D:/Charmageddon_prova/Obstacle.hpp">
+			<Option target="Charmageddon_1"/>
+		</Unit>
+		<Unit filename="D:/Charmageddon_prova/Player.cpp">
+			<Option target="Charmageddon_1"/>
+		</Unit>
+		<Unit filename="D:/Charmageddon_prova/Player.hpp">
+			<Option target="Charmageddon_1"/>
+		</Unit>
+		<Unit filename="D:/Charmageddon_prova/main.cpp">
+			<Option target="Charmageddon_1"/>
+		</Unit>
+		<Unit filename="D:/Charmageddon_prova/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
