@@ -7,6 +7,24 @@
 
 #include <windows.h>
 #include <iostream>
+#include <chrono>
+
+
+using namespace std;
+
+
+
+#include <windows.h>
+#include <iostream>
+#include "Player.hpp"
+#include "InteractableObject.hpp"
+#include "Bonus.hpp"
+#include "Obstacle.hpp"
+#include "Menu.hpp"
+#include "Map.hpp"
+#include <cstdlib>
+#include <chrono>
+#include <unistd.h>
 
 
 using namespace std;
@@ -53,11 +71,13 @@ protected:
     class Player *myPlayer;
     ListSpawnedObjectPtr headSpawned;
     ListOnScreenObjectPtr headScreen;
+    ListSpawnedObjectPtr object;
     bool bIdecreasedLvl;
     int bonusChance;
     int generalSpawnChance;
     int points,pointsThisLvl;
     int pointPerTickVariation;
+    int giftedPoints;
     float millisecToUpdatePoints,millisecToSpawn;
     COORD rightSpawn;
     COORD leftSpawn;
@@ -72,30 +92,32 @@ protected:
     int maxLevel;
     bool Chance(int myPercent);
     void SwitchSpawnPos(int lessThanThree);
-
-
+    bool bIsRecycling;
+    chrono::steady_clock::time_point spawn;
+    chrono::steady_clock::time_point game_time;
 
 public:
 
     GameState();
-    //GameState();
     void SetGameState(state myState);
     void PointsProgression(class Player* myPlayer);
     void AddPoints(int addedPoints);
     void LvlIncrease();
     void IncreaseDifficulty();
     void InitializeSpwnCoord(class Map* myMap);
-    void NewNodeSetting(int pointsWhenSpawned,short xObjSpawnCoord,class InteractableObject* MyObject);
+    void NewNodeSpawnedSetting(int pointsWhenSpawned,short xObjSpawnCoord,class InteractableObject* MyObject);
+    void NewNodeScreenSetting(short xObjSpawnCoord,class InteractableObject* MyObject);
     void SpawnObjects();
-    void RecyclingOldObjects(ListSpawnedObjectPtr ptr);
-    void SearchObjList(ListSpawnedObjectPtr tmp, int points);
+    void RecyclingOldObjects();
+    void MoveObjOnScreen();
+    ListSpawnedObjectPtr SearchObjList(int points);
     int GetPoints();
     short GetCurrentLvl();
     int Clamp(int myNumber,int lower,int upper);
     state GetCurrentState();
-    bool Timer(time_t timeStart,time_t timeCheck, float numToMillisec);
+    bool Timer(chrono::steady_clock::time_point timeStart,chrono::steady_clock::time_point timeCheck, float numToMillisec);
     void DeleteFromObjOnScreenList(bool shouldIRemoveObj,ListOnScreenObjectPtr index);
-
+    void testLista();
 
 };
 

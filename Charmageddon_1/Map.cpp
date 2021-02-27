@@ -7,11 +7,11 @@ Map::Map() {
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&csbi);
     screenWidth = csbi.srWindow.Right;
     screenHeight = csbi.srWindow.Bottom;
-    starsAStarts = 1;
     xMiddle = 0.5;
     roadWidth = 0.85; //strada occupa l'85% della finestra
     startLeftRoad = (xMiddle-roadWidth/2)*screenWidth;
     startRightRoad = (xMiddle+roadWidth/2)*screenWidth;
+    startStars();
     startGrass();
 }
 void Map::setCursor(short x,short y) {
@@ -24,7 +24,7 @@ void Map::setAndPrintChar(char c,short x, short y) {
     setCursor(x,y);
     cout<<c;
 }
-void Map::setAndPrintStr(string str, short x, short y, colours col=WHITE) {
+void Map::chooseColor(colours col) {
     switch(col) {
         case BLUE:
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE);
@@ -47,34 +47,17 @@ void Map::setAndPrintStr(string str, short x, short y, colours col=WHITE) {
         default: ;
 
     }
+}
+
+void Map::setAndPrintStr(string str, short x, short y, colours col = WHITE) {
+    chooseColor(col);
     setCursor(x,y);
     cout<<str;
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),csbi.wAttributes);//ritorna alla normalità
 }
 
 void Map::setAndPrintStrCol(string str[],int length, short x, short y, colours col=WHITE) {
-    switch(col) {
-        case BLUE:
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE);
-            break;
-        case RED:
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
-            break;
-        case GREEN:
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN);
-            break;
-        case OCHRE:
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN);
-            break;
-        case VIOLET:
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_RED | FOREGROUND_BLUE);
-            break;
-        case CYAN:
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_BLUE | FOREGROUND_GREEN);
-            break;
-        default: ;
-
-    }
+    chooseColor(col);
     //stampa per prima l'ultima riga (dello sprite), poi la penultima etc etc
     for(int i = 0; i < length;i++){
         setCursor(x,y-i);
@@ -86,14 +69,15 @@ void Map::setAndPrintStrCol(string str[],int length, short x, short y, colours c
 void Map::printMap() {
     for(int y = screenHeight;y >= screenHeight/2.3;y--){ //il 2.3 serve per dare più di metà schermo alla strada
         for (int x = 0;x <= screenWidth;x++){
-            if(x == (startLeftRoad+screenHeight-y)){
+            if(x == (startLeftRoad + screenHeight - y)){
                 setAndPrintChar('/',x,y);
             }
-            else if(x == (startRightRoad-screenHeight+y)){
+            else if(x == (startRightRoad - screenHeight + y)){
                 setAndPrintChar('\\',x,y);
             }
         }
     }
+    //da vedere se inserirle oppure no, dipende da implementazione
     //printStars();
     //printGrass();
 }
@@ -120,17 +104,18 @@ int Map::getERR() {
     return endRightRoad;
 }
 //stars
-void Map::printStars() {
-    string starA = "*";
-    string starB = "  *";
+void Map::startStars() {
+    starsAStarts = 1;
+    starsA = "*";
+    starsB = "  *";
     int spaces = 3;
     // creo starA: "*   *   *   *   *.."
     for(int i = 1;i <= screenWidth;i++){
         if(spaces > 0){
-            starA += " ";
+            starsA += " ";
             spaces--;
         }else{
-            starA += "*";
+            starsA += "*";
             spaces=3;
         }
     }
@@ -138,35 +123,39 @@ void Map::printStars() {
     //creo starB: "  *   *   *   *   *..."
     for(int i = 3;i <= screenWidth;i++){
         if(spaces > 0){
-            starB += " ";
+            starsB += " ";
             spaces--;
         }else{
-            starB += "*";
+            starsB += "*";
             spaces=3;
         }
     }
-    string stars[(int)(screenHeight/2.8-6)];
+}
+
+void Map::printStars() {
+    string stars[(int)(screenHeight/2.8 - 6)];
     if(starsAStarts == 1){
-        for(int i = screenHeight/2.8-7;i >= 0;i--){
+        for(int i = screenHeight/2.8 - 7;i >= 0;i--){
             if (i%2 == 0){
-                stars[i] = starA;
+                stars[i] = starsA;
             }else{
-                stars[i] = starB;
+                stars[i] = starsB;
             }
         }
     }else{
-        for(int i = screenHeight/2.8-7;i >= 0;i--){
+        for(int i = screenHeight/2.8 - 7;i >= 0;i--){
             if (i%2 == 0){
-                stars[i] = starB;
+                stars[i] = starsB;
             }else{
-                stars[i] = starA;
+                stars[i] = starsA;
             }
         }
     }
-    starsAStarts = starsAStarts*(-1);
+    starsAStarts = starsAStarts * (-1);
     setAndPrintStrCol(stars,screenHeight/2.8-6,0,screenHeight/2.8-7,OCHRE);
 }
 //grass
+
 void Map::startGrass() {
     length = screenHeight-screenHeight/2.3;
     endLeftRoad = startLeftRoad + length;
@@ -231,19 +220,32 @@ void Map::createLine(int score) {
 }
 void Map::printGrass() {
     ptrBilista tmp = tail;
-    int xDx = endRightRoad +1;
-    int firstY=screenHeight/2.3+1;
+    int xDx = endRightRoad + 1;
+    int firstY=screenHeight/2.3 + 1;
     string str;
     do {
         str = tmp->line;
         setAndPrintStr(str,0,firstY,GREEN);
-        reverse(str.begin(),str.end());
+        //reverse(str.begin(),str.end());
+        reverseString(&str,0,str.length()-1);
         setAndPrintStr(str,xDx,firstY,GREEN);
         tmp = tmp->prev;
         firstY++;
         xDx++;
     } while (tmp != tail);
 }
+void Map::reverseString(string *string,int left,int right) {
+    if(left >= right){
+        return;
+    }
+    else{
+        char tmp = (*string)[left];
+        (*string)[left] = (*string)[right];
+        (*string)[right] = tmp;
+        reverseString(string, ++left, --right);
+    }
+}
+
 void Map::runGrass(int score) {
     string str;
     ptrBilista tmp = head;

@@ -7,9 +7,13 @@
 
 #include <Windows.h>
 #include <iostream>
-
+#include "Map.hpp"
+#include <string>
+#include <fstream>
+#include <conio.h>
 
 using namespace std;
+
 
 struct lista {
     int pz;
@@ -22,7 +26,6 @@ typedef lista *ptr;
 class Menu {
 protected:
     char key;
-    bool controllo = false;
     int x;
     int y;
     ptr h, p;
@@ -31,21 +34,27 @@ protected:
     void window();
     void gotoxy(int x, int y);
     int scelta;
+    colours colore;
+    string user;
 
 public:
     ptr creazione_lista ();
     ptr newscore (ptr h, int nscore, string user);
     void cout_lista (ptr h);
-    int scelta_car();
+    void scelta_car();
     int get_scelta();
-    void post_menu (string user, int score, ptr h);
-    string presentazione();
+    void post_menu (string user, int score);
+    void presentazione();
+    string get_user();
+    void scelta_colore();
+    colours get_colore();
 
     Menu();
 
-    int crea_menu();
+    int crea_menu(int counter);
 
 };
+
 
 
 #endif //CHARMAGEDDON_1_MENU_HPP

@@ -44,7 +44,6 @@ void Player::printCar(Map *map) {
     int xPos= xCarPosition(relPos);
     map->setCarPos(xPos);
     map->setAndPrintStrCol(car,4,xPos,screenHeight,colour);
-    map->setCursor(screenWidth,0);
 }
 void Player::disappear(Map *map, int xCarPos) {
     map->setAndPrintStrCol(disapp,4,xCarPos,map->getScreenHeight(),WHITE);
@@ -52,51 +51,52 @@ void Player::disappear(Map *map, int xCarPos) {
 void Player::resetAndPrint(Map *map,int xCarPos) {
     string danger[7];
     if((xCarPos <= map->getSLR()) || (xCarPos+carWidth >= map->getSRR())){ //per come sono fatte le macchine deve funzionare così.
-        danger[0] ="/_____________\\";
-        danger[1]=" /     .     \\";
-        danger[2]="  /    |    \\";
-        danger[3]="   /   |   \\";
-        danger[4]="    /  |  \\";
-        danger[5]="     / | \\";
-        danger[6]="      / \\";
+        danger[0] = "/_____________\\";
+        danger[1] = " /     .     \\";
+        danger[2] = "  /    |    \\";
+        danger[3] = "   /   |   \\";
+        danger[4] = "    /  |  \\";
+        danger[5] = "     / | \\";
+        danger[6] = "      / \\";
         outOfRoad = true;
     }else{
-        danger[0] ="               ";
-        danger[1]="              ";
-        danger[2]="             ";
-        danger[3]="            ";
-        danger[4]="           ";
-        danger[5]="          ";
-        danger[6]="         ";
+        danger[0] = "               ";
+        danger[1] = "              ";
+        danger[2] = "             ";
+        danger[3] = "            ";
+        danger[4] = "           ";
+        danger[5] = "          ";
+        danger[6] = "         ";
         outOfRoad = false;
     }
     map->setAndPrintStrCol(danger,7,map->getScreenWidth()/2-7,map->getScreenHeight()/2.8,RED);
-    int i = rand()%1000;
-    map->runGrass(i); // preso in un qualche modo
     map->printMap();
+    //qui c'era anche un print map prima ma in teoria non dovrebbe cambiare niente
     printCar(map);
 }
+
 void Player::moveCar(Map *map) {
     int xCarPos;
     if (GetAsyncKeyState(VK_LEFT) & (0x8000 != 0)) {
         disappear(map,xCarPosition(relPos));
-        xCarPos=xCarPosition(relPos-movement);
-        if(xCarPos>=0){
-            relPos-=movement;
+        xCarPos = xCarPosition(relPos-movement);
+        if(xCarPos >= 0){
+            relPos -= movement;
         }
         resetAndPrint(map,xCarPos);
     }
     else if(GetAsyncKeyState(VK_RIGHT)& (0x8000 != 0)){
         disappear(map,xCarPosition(relPos));
-        xCarPos=xCarPosition(relPos+movement);
+        xCarPos = xCarPosition(relPos+movement);
         if(xCarPos<=screenWidth-carWidth){
-            relPos+=movement;
+            relPos += movement;
         }
         resetAndPrint(map,xCarPos);
     }
 }
+
 void Player::setMovement(float mv) {
-    movement=mv;
+    movement = mv;
 }
 
 float Player::getMovement() {
@@ -110,23 +110,25 @@ void Player::getRightCarPos(int positions[]) {
     int xCarPos = xCarPosition(relPos);
     for(int i = 0; i < 4 ;i++ ){
         prova = car[i];
-        positions[i] = xCarPos+prova.length()-1;//il meno 1 perchè xCarPos mi dice la prima posizione
+        positions[i] = xCarPos + prova.length()-1;//il meno 1 perchè xCarPos mi dice la prima posizione
     }
 }
 bool Player::getOutOfRoad() {
     return outOfRoad;
 }
 
-bool Player::CheckHit(InteractableObject *obj) {
+bool Player::CheckHit(InteractableObject *obj,int heightCheck) {
+    //se heightCheck == 2 devo guardare le due righe più in alto della macchina.
     int carDesPos[4];
+    int end = 3; //ultima posizione valida in carDesPos
     int xCarPos = xCarPosition(relPos);
     getRightCarPos(carDesPos);
     bool hit = false;
     int x1 = obj->GetHitbox(0);
     int x2 = obj->GetHitbox(1);
     int counter = 0;
-    while ((!hit) && (counter < 4)){
-        if(((x1 >= xCarPos) && (x1 <= carDesPos[counter])) || ((x2 >= xCarPos) && (x2 <= carDesPos[counter]))){
+    while ((!hit) && (counter < heightCheck)){
+        if(((x1 >= xCarPos) && (x1 <= carDesPos[end-counter])) || ((x2 >= xCarPos) && (x2 <= carDesPos[end-counter]))){
             hit = true;
         }
         counter++;
@@ -134,9 +136,6 @@ bool Player::CheckHit(InteractableObject *obj) {
     return hit;
 }
 
-void Player::handleHit(bool hit, int points) {
-    if(hit){
-        myGameState->AddPoints(points);
-    }
+void Player::handleHit( int points) {
+    myGameState->AddPoints(points);
 }
-

@@ -10,7 +10,7 @@
 #include "Menu.hpp"
 #include "Map.hpp"
 #include <thread>
-#include <chrono>
+
 #include <cstdlib>
 #include <ctime>
 
@@ -19,22 +19,25 @@
 
 GameState::GameState(){
 
-    points=0;
+    srand(time(0));
+    points=100;
     pointsThisLvl=0;
     pointPerTickVariation=1;
     millisecToUpdatePoints=250;
-    millisecToSpawn=5000;
+    millisecToSpawn=3000;
+    giftedPoints=2000;
     generalSpawnChance=30;
     bonusChance=10;
     currentLvl=1;
-    basePointsToIncreaseLvl=10000;
+    basePointsToIncreaseLvl=30000;
     levelUpScaling=1.f;
     currentState=MENU;
     MyMenu=new Menu();
     myMap = new Map();
     myPlayer = new Player(myMap,1,WHITE,this);//da completare con il menu nuovo
-    headSpawned=new ListSpawnedObject;
-    headScreen=new ListOnScreenObject;
+    headSpawned=NULL;
+    headScreen= NULL;
+    object=NULL;
     bIdecreasedLvl=false;
     maxLevel = 0;
 }
@@ -43,70 +46,212 @@ GameState::GameState(){
 void GameState::SetGameState(state myState) {
 
     currentState=myState;
-
+    int choice = 4;
+    Obstacle *p;
+    string str;
+    spawn = std::chrono::steady_clock::now();
+    game_time = std::chrono::steady_clock::now();
     switch(currentState) {
         case MENU :
-
-            points=MyMenu->crea_menu(1);
-
-
+            MyMenu = new Menu();
+            choice = MyMenu->crea_menu(1);
+            if(choice == 1)
+                SetGameState(PLAYING);
             break;
+
         case PLAYING:
-
-
+            spawn =  std::chrono::steady_clock::now();
+            myMap = new Map();
+            myMap->printMap();
+            myPlayer = new Player(myMap,2,RED,this);
+            myPlayer->printCar(myMap);
+            InitializeSpwnCoord(myMap);
+            while((currentState == PLAYING) && !GetAsyncKeyState(VK_ESCAPE)){
+                myPlayer->moveCar(myMap);
+                SpawnObjects();
+                MoveObjOnScreen();
+                PointsProgression(myPlayer);
+                myMap->setCursor(0,0);
+                cout<<points<<"        ";
+                LvlIncrease();
+                myMap->setCursor(0,1);
+                cout<<currentLvl;
+            }
+            SetGameState(GAMEOVER);
             break;
         case GAMEOVER:
-
+            MyMenu->post_menu(MyMenu->get_user(),points);
             break;
-        default:;
 
     }
 }
-
+//ora facciamo spawnare un solo oggetto e facciamo muovere.
 void GameState::SpawnObjects() {
-
-    //while((currentState == PLAYING) && (bIdecreasedLvl == false)){
-    for(int spawnPoint=2;spawnPoint>-1;spawnPoint--){
-        if(Chance(generalSpawnChance)) {                                                //check if an object is spawning
-            if (Chance(bonusChance)) {                                                  //previous condition is true, check if it is a bonus
-
-                Bonus *myBonus = new Bonus();
-                SwitchSpawnPos(spawnPoint);
-                myBonus->SetObjCoord(xSpawn,ySpawn);
-                NewNodeSetting(points,xSpawn, myBonus);
-                //myBonus->MoveBonus(myMap, myPlayer, millisecToUpdatePoints);
-            }else{
-                Obstacle *myObstacle = new Obstacle();
-                SwitchSpawnPos(spawnPoint);
-                myObstacle->SetObjCoord(xSpawn,ySpawn);
-                NewNodeSetting(points,xSpawn, myObstacle);
-                //myObstacle->MoveBonus(myMap, myPlayer, millisecToUpdatePoints);
+    game_time =  std::chrono::steady_clock::now();
+    if(!bIdecreasedLvl){
+        if(Timer(spawn,game_time,millisecToSpawn)){
+            for(int spawnPoint=2;spawnPoint>-1;spawnPoint--){
+                if(Chance(generalSpawnChance)) {                                                //check if an object is spawning
+                    if (Chance(bonusChance)) {                                                  //previous condition is true, check if it is a bonus
+                        Bonus *myBonus = new Bonus();
+                        SwitchSpawnPos(spawnPoint);
+                        myBonus->SetObjCoord(xSpawn,ySpawn);
+                        NewNodeSpawnedSetting(points,xSpawn, myBonus);
+                        NewNodeScreenSetting(xSpawn,myBonus);
+                    }else{
+                        Obstacle *myObstacle = new Obstacle();
+                        SwitchSpawnPos(spawnPoint);
+                        myObstacle->SetObjCoord(xSpawn,ySpawn);
+                        NewNodeSpawnedSetting(points,xSpawn, myObstacle);
+                        NewNodeScreenSetting(xSpawn,myObstacle);
+                    }
+                }
             }
+            spawn =  std::chrono::steady_clock::now();
         }
     }
-    if(bIdecreasedLvl == true){
-        //chiamare nuova funzione
+    else{
+        RecyclingOldObjects();
+        spawn =  std::chrono::steady_clock::now();
     }
 }
 
+void GameState::testLista() {
+    Bonus *p = new Bonus();
+    p->SetObjCoord(14,27);
+    NewNodeSpawnedSetting(120,14,p);
+    Bonus *t = new Bonus();
+    t->SetObjCoord(100,27);
+    NewNodeSpawnedSetting(145,100,t);
+    Obstacle *z = new Obstacle();
+    z->SetObjCoord(50,27);
+    NewNodeSpawnedSetting(170,50,z);
+    ListSpawnedObjectPtr point = headSpawned;
+    while(point != NULL){
+        cout<<point->xObjSpawnCoord<<endl;
+        point = point->next;
+    }
+    RecyclingOldObjects();
+    cout<<headScreen->xObjSpawnCoord;
+}
+
+
+
+void GameState::NewNodeSpawnedSetting(int pointsWhenSpawned,short xObjSpawnCoord,class InteractableObject* MyObject) {
+    ListSpawnedObjectPtr temp_ptr;
+    temp_ptr= new ListSpawnedObject;
+    temp_ptr->pointsWhenSpawned=pointsWhenSpawned;
+    temp_ptr->xObjSpawnCoord=xObjSpawnCoord;
+    temp_ptr->MyObject=MyObject;
+    temp_ptr->next=headSpawned;
+    temp_ptr->pre = NULL;
+    headSpawned=temp_ptr;
+    if(temp_ptr->next != NULL){
+        temp_ptr->next->pre=temp_ptr;
+    }
+}
+
+void GameState::NewNodeScreenSetting(short xObjSpawnCoord, class InteractableObject *MyObject) {
+    ListOnScreenObjectPtr t_ptr;
+    t_ptr = new ListOnScreenObject;
+    t_ptr->xObjSpawnCoord=xObjSpawnCoord;
+    t_ptr->MyObject=MyObject;
+    t_ptr->pre = NULL;
+    t_ptr->next=headScreen;
+    if(t_ptr->next != NULL){
+        t_ptr->next->pre=t_ptr;
+    }
+    headScreen=t_ptr;
+}
+
+void GameState::RecyclingOldObjects() {
+    //ListSpawnedObjectPtr object = SearchObjList(points); // noi voglaimo solo il punteggio esatto.
+    bool isHead = false;
+    int object_points = object->pointsWhenSpawned;
+    if(object_points <= points){
+        while(!isHead && (object->pointsWhenSpawned == object_points)) {
+            object->MyObject->Reset(ySpawn);
+            NewNodeScreenSetting(object->xObjSpawnCoord, object->MyObject);
+            if (object == headSpawned)
+                isHead = true;
+            else
+                object = object->pre;
+        }
+        if(isHead){
+            bIdecreasedLvl = false;
+        }
+    }
+}
+
+ListSpawnedObjectPtr GameState::SearchObjList(int points){
+    ListSpawnedObjectPtr tmp = headSpawned;
+    ListSpawnedObjectPtr tmp_pre = headSpawned;
+    bool isEnd = false;
+    while(tmp->pointsWhenSpawned >= points && !isEnd){
+        tmp_pre = tmp;
+        if(tmp->next == NULL){
+            isEnd = true;
+        }else
+            tmp = tmp->next;
+    }
+    return tmp_pre;
+}
+
+void GameState::MoveObjOnScreen() {
+    ListOnScreenObjectPtr tmp = headScreen;
+    bool isToRemove;
+    while(tmp != NULL){
+        isToRemove = tmp->MyObject->MoveObject(myMap,myPlayer,this);
+        DeleteFromObjOnScreenList(isToRemove,tmp);
+        tmp = tmp->next;
+    }
+}
+
+void GameState::DeleteFromObjOnScreenList(bool shouldIRemoveObj,ListOnScreenObjectPtr index){
+    if(shouldIRemoveObj){
+        if(index->pre==NULL){
+            if(index->next == NULL){
+                headScreen = NULL;
+                //delete index;
+            }
+            else{
+                index->next->pre = NULL;
+                headScreen = headScreen->next;
+                //delete index;
+            }
+        }
+        else if(index->next == NULL){
+            index->pre->next = NULL;
+            //delete index;
+        }
+        else{
+            index->pre->next = index->next;
+            index->next->pre = index->pre;
+            //delete index;
+        }
+    }
+}
 
 void GameState::PointsProgression(Player *myPlayer) {
 
     if (myPlayer->getOutOfRoad() == false) {
-       points = points + pointPerTickVariation ;
-       pointsThisLvl = + pointPerTickVariation ;
+        points = points + pointPerTickVariation ;
+        pointsThisLvl +=  pointPerTickVariation ;
     }else{
         points = points - pointPerTickVariation;
-        pointsThisLvl = - pointPerTickVariation;
+        pointsThisLvl -=  pointPerTickVariation;
+        if (points < 0){
+            SetGameState(GAMEOVER);
+        }
     }
 }
 
-
-
 void GameState::AddPoints(int addedPoints) {
-
     points +=  addedPoints;
     pointsThisLvl +=  addedPoints;
+    if (points < 0){
+        SetGameState(GAMEOVER);
+    }
 }
 
 
@@ -115,133 +260,83 @@ void GameState::IncreaseDifficulty() {
 
     levelUpScaling = levelUpScaling + 0.5f;
 
-    if (currentLvl % 2 == 0) {
+    /*if (currentLvl % 2 == 0) {
         pointPerTickVariation++;
-
-
-    }
+    }*/
 }
 
-    void GameState::LvlIncrease() {
+void GameState::LvlIncrease() {
 
-        if(pointsThisLvl>basePointsToIncreaseLvl*levelUpScaling){
-
-            currentLvl++;
-            pointsThisLvl=0;
-            IncreaseDifficulty();
-        }
-
-
+    if(pointsThisLvl>basePointsToIncreaseLvl*levelUpScaling){
+        currentLvl++;
+        pointsThisLvl=0;
+        IncreaseDifficulty();
+        //bIdecreasedLvl = false;
     }
-
-    void GameState::NewNodeSetting(int pointsWhenSpawned,short xObjSpawnCoord,class InteractableObject* MyObject) {
-        ListSpawnedObjectPtr temp_ptr;
-        temp_ptr= new ListSpawnedObject;
-        temp_ptr->pointsWhenSpawned=pointsWhenSpawned;
-        temp_ptr->xObjSpawnCoord=xObjSpawnCoord;
-        temp_ptr->MyObject=MyObject;
-        temp_ptr->next=headSpawned;
-        headSpawned=temp_ptr;
-        temp_ptr->next->pre=headSpawned;
-        //
-        ListOnScreenObjectPtr t_ptr;
-        t_ptr = new ListOnScreenObject;
-        t_ptr->xObjSpawnCoord=xObjSpawnCoord;
-        t_ptr->MyObject=MyObject;
-        t_ptr->next=headScreen;
-        headScreen=t_ptr;
-        t_ptr->next->pre=headScreen;
-
-    }
-
-
-    void GameState::RecyclingOldObjects(ListSpawnedObjectPtr ptr) {
-
-        ListSpawnedObjectPtr tmp = headSpawned;
-        if(points < 0){
-            SetGameState(GAMEOVER);
-        }
-        else{
-            ptr->MyObject->SetObjCoord(ptr->xObjSpawnCoord,ySpawn);
-            //movement
-        }
-    }
-
-void GameState::SearchObjList(ListSpawnedObjectPtr tmp, int points){
-
-    if (tmp){
-        tmp = headSpawned;
+    else if(pointsThisLvl < 0){
+        currentLvl--;
+        levelUpScaling = levelUpScaling - 0.5f;
+        pointsThisLvl = giftedPoints;
+        points= points - (basePointsToIncreaseLvl* levelUpScaling) + giftedPoints;
+        bIdecreasedLvl = true;
+        object = SearchObjList(points);
     }
 
 }
 
 
-void GameState::DeleteFromObjOnScreenList(bool shouldIRemoveObj,ListOnScreenObjectPtr index){
+void GameState::InitializeSpwnCoord(class Map* myMap) {
+    rightSpawn.X=myMap->getERR()-8;
+    leftSpawn.X=myMap->getELF()+1;
+    midSpawn.X=myMap->getScreenWidth()/2-3;
+    rightSpawn.Y=(int)myMap->getScreenHeight()/(2.3)+3;
+    leftSpawn.Y=(int)myMap->getScreenHeight()/(2.3)+3;
+    midSpawn.Y=(int)myMap->getScreenHeight()/(2.3)+3;
 
-    if(shouldIRemoveObj){
-        if(index->pre==NULL){
+}
 
-        }
-    }else return;
+void GameState::SwitchSpawnPos(int lessThanThree) {
+
+    switch (lessThanThree) {
+
+        case 2:
+            xSpawn = leftSpawn.X;
+            ySpawn = leftSpawn.Y;
+            break;
+        case 1:
+            xSpawn = midSpawn.X;
+            ySpawn = midSpawn.Y;
+            break;
+        default :
+            xSpawn = rightSpawn.X;
+            ySpawn = rightSpawn.Y;
+            break;
+    }
 }
 
 
-    void GameState::InitializeSpwnCoord(class Map* myMap) {
-        rightSpawn.X=myMap->getERR()-8;
-        leftSpawn.X=myMap->getELF()+1;
-        midSpawn.X=myMap->getScreenWidth()/2;
-        rightSpawn.Y=myMap->getScreenHeight()/(2.3+1);
-        leftSpawn.Y=myMap->getScreenHeight()/(2.3+1);
-        midSpawn.Y=myMap->getScreenHeight()/(2.3+1);
+bool GameState::Chance(int myPercent) {
 
-    }
-
-    bool GameState::Chance(int myPercent) {
-
-        srand(time(0));
-        int temp=rand()%100000;
-        if(temp<=myPercent*1000)
-            return true;
-        else
-            return false;
-    }
-
-    int GameState::Clamp(int myNumber,int lower,int upper){
-
-        return std::max(lower, std::min(myNumber,upper));
-    }
-
-
-bool GameState::Timer(time_t timeStart,time_t timeCheck, float numToMillisec){
-    float elapsedTime=difftime(timeCheck,timeStart)*1000;
-
-    float tmp = elapsedTime / numToMillisec;
-    if(tmp >= 1)
+    int temp=rand()%100;
+    if(temp<=myPercent)
         return true;
     else
         return false;
 }
 
+int GameState::Clamp(int myNumber,int lower,int upper){
 
-    void GameState::SwitchSpawnPos(int lessThanThree){
+    return std::max(lower, std::min(myNumber,upper));
+}
 
-        switch(lessThanThree){
 
-            case 2:
-                xSpawn=leftSpawn.X;
-                ySpawn=leftSpawn.Y;
-                break;
-            case 1:
-                xSpawn=midSpawn.X;
-                ySpawn=midSpawn.Y;
-                break;
-            case 0:
-                xSpawn=rightSpawn.X;
-                ySpawn=rightSpawn.Y;
-                break;
+bool GameState::Timer(chrono::steady_clock::time_point timeStart,chrono::steady_clock::time_point timeCheck, float numToMillisec){
+    float elapsedTime = chrono::duration_cast<chrono::milliseconds>(timeCheck - timeStart).count();
+    if(elapsedTime >= numToMillisec)
+        return true;
+    else
+        return false;
+}
 
-            default: xSpawn=midSpawn.X;ySpawn=midSpawn.Y;
-        }
-    }
 
 

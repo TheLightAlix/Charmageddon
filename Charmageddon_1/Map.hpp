@@ -43,6 +43,8 @@ protected:
     int carPosition=0; //posizione più a sinistra dell'auto.
     //stelle
     int starsAStarts; //mi indica quale stringa di stelle stampare
+    string starsA;
+    string starsB;
     //erba
     int length; //lunghezza delle righe d'erba
     int endLeftRoad; // ultima / che dall'alto che rappresenta la strada
@@ -51,6 +53,8 @@ protected:
     int random; //crea randomicità tra le partite.
     ptrBilista head; //ultima riga d'erba(in basso)
     ptrBilista tail; //prima riga d'erba(in alto)
+    //supporto
+    void reverseString(string *,int,int); //serve per invertire una stri
 public:
     Map();
 
@@ -65,6 +69,9 @@ public:
 
     //serve per stampare un'array di stringhe colorate in una certa zona della console
     void setAndPrintStrCol(string[],int,short,short,colours);
+
+    //serve per settare la console in modo da stampare il colore adeguato!
+    void chooseColor(colours);
 
     //stampa tutta gli elementi della mappa.
     void printMap();
@@ -91,6 +98,7 @@ public:
     //stars
 
     //stampa le stelle
+    void startStars();
     void printStars();
 
     //grass
@@ -109,6 +117,7 @@ public:
 
     //serve a muovere l'erba da una una riga x, alla riga x-1(quindi quella sotto)
     void runGrass(int);
+
 };
 
 
