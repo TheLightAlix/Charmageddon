@@ -1,0 +1,3 @@
+D:/Charmageddon_prova/cmake-build-debug/CMakeFiles/Charmageddon_1.dir
+D:/Charmageddon_prova/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Charmageddon_prova/cmake-build-debug/CMakeFiles/rebuild_cache.dir
