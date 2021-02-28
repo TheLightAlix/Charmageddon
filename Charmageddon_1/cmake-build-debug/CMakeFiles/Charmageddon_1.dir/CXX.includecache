@@ -1,0 +1,96 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/Bonus.hpp
+InteractableObject.hpp
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/InteractableObject.hpp
+
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/GameState.cpp
+GameState.hpp
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/GameState.hpp
+Player.hpp
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/Player.hpp
+InteractableObject.hpp
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/InteractableObject.hpp
+Bonus.hpp
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/Bonus.hpp
+Obstacle.hpp
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/Obstacle.hpp
+Menu.hpp
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/Menu.hpp
+Map.hpp
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/Map.hpp
+thread
+-
+cstdlib
+-
+ctime
+-
+
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/GameState.hpp
+windows.h
+-
+iostream
+-
+chrono
+-
+
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/InteractableObject.hpp
+windows.h
+-
+string
+-
+iostream
+-
+windows.h
+-
+string
+-
+iostream
+-
+chrono
+-
+
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/Map.hpp
+windows.h
+-
+cmath
+-
+stdlib.h
+-
+ctime
+-
+bits/stdc++.h
+-
+
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/Menu.cpp
+Menu.hpp
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/Menu.hpp
+
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/Menu.hpp
+Windows.h
+-
+iostream
+-
+Map.hpp
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/Map.hpp
+string
+-
+fstream
+-
+conio.h
+-
+
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/Obstacle.hpp
+InteractableObject.hpp
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/InteractableObject.hpp
+
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/Player.hpp
+Map.hpp
+C:/Users/leola/Desktop/Charmageddon-master (4)/Charmageddon-master/Charmageddon_1/Map.hpp
+

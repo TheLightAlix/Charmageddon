@@ -1,0 +1,10 @@
+1 Lorenzo 10
+2 Emanuele 7
+3 Alessio 6
+4 Osvaldo 6
+5 Filippo 3
+6 Lorena 3
+7 Leonardo 2
+8 Gaglioppo 2
+9 Ted 2
+10 Ciccio 1
