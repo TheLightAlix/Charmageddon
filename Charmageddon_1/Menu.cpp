@@ -22,7 +22,7 @@ ptr Menu::creazione_lista () {
     string name;
     int pos, score;
 
-    ifstream  file("record.txt");
+    ifstream  file("..\\record.txt");
     if (file.is_open()){
 
         while (file >> pos >> name >> score){ //riporta il file txt nella lista
@@ -103,9 +103,9 @@ ptr Menu::newscore (ptr h, int nscore, string user) {
 
     }
     ptr iter;
-    ofstream scrivi; //salva nel documento txt la nuova lista di record aggiornata
+    ofstream scrivi; //salva nel documento txt la nuova lista di record.txt aggiornata
     iter = h;
-    scrivi.open("record.txt");
+    scrivi.open("record.txt.txt");
     while (iter != NULL) {
         scrivi << iter->pz << " " << iter->n << " " << iter->s << endl;
         iter = iter->next;
@@ -170,7 +170,7 @@ void Menu::post_menu (string user, int score) {
     if (record == true) {
         window();
         gotoxy(x-16, y-1);
-        cout << "CONGRATS! That's a new record!!!";
+        cout << "CONGRATS! That's a new record.txt!!!";
         window();
         gotoxy(x-19, y+6);
         system("pause");
@@ -190,9 +190,9 @@ void Menu::post_menu (string user, int score) {
         while (esc == false) {
             window();
             gotoxy(x-19, y+12);
-            cout << "Press ESC to esc!" << endl;
+            cout << "Press ENTER to esc!" << endl;
             key = _getch();
-            if (key == 27) {
+            if (key == 13) {
                 esc = true;
             }
         }
@@ -207,14 +207,15 @@ void Menu::post_menu (string user, int score) {
         while (esc == false) {
             window();
             gotoxy(x-19, y+3);
-            cout << "Press ESC to go back to the main Menu!" << endl;
+            cout << "Press ENTER to Esc!" << endl;
             key = _getch();
-            if (key == 27) {
+            if (key == 13) {
                 esc = true;
             }
         }
 
     }
+    system("cls");
 
 }
 void Menu::scelta_car() {
@@ -454,8 +455,7 @@ int Menu::crea_menu(int counter = 1) {
         scelta_colore();
         scelta_car();
         return counter;
-        // system("cls");
-        // post_menu(user, 130, h);
+
 
     } else if (counter == 2) {
         controllo = false;
@@ -464,9 +464,9 @@ int Menu::crea_menu(int counter = 1) {
             window();
             cout_lista(h); //cout lista è usato per stampare nella console la lista che precedentemente era stata creata da txt in creazione_lista
             gotoxy(x - 11, y + 4);
-            cout << "Press ESC to go back!" << endl;
+            cout << "Press ENTER to go back!" << endl;
             key = _getch();
-            if (key == 27) {
+            if (key == 13) {
                 controllo = true;
             }
         }
@@ -482,9 +482,9 @@ int Menu::crea_menu(int counter = 1) {
             gotoxy(x - 32, y + 1);
             cout << "It's a console-based game and we're so proud of it! Take a ride!";
             gotoxy(x - 11, y + 16);
-            cout << "Press ESC to go back!" << endl;
+            cout << "Press ENTER to go back!" << endl;
             key = _getch();
-            if (key == 27) {
+            if (key == 13) {
                 controllo = true;
             }
         }

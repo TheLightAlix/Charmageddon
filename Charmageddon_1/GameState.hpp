@@ -14,23 +14,6 @@ using namespace std;
 
 
 
-#include <windows.h>
-#include <iostream>
-#include "Player.hpp"
-#include "InteractableObject.hpp"
-#include "Bonus.hpp"
-#include "Obstacle.hpp"
-#include "Menu.hpp"
-#include "Map.hpp"
-#include <cstdlib>
-#include <chrono>
-#include <unistd.h>
-
-
-using namespace std;
-
-
-
 enum state{
     MENU,
     PLAYING,
@@ -82,6 +65,8 @@ protected:
     COORD rightSpawn;
     COORD leftSpawn;
     COORD midSpawn;
+    COORD midRightSpawn;
+    COORD midLeftSpawn;
     int xSpawn;
     int ySpawn;
     short currentLvl;
@@ -95,6 +80,10 @@ protected:
     bool bIsRecycling;
     chrono::steady_clock::time_point spawn;
     chrono::steady_clock::time_point game_time;
+    chrono::steady_clock::time_point startINVINCIBLEmode;
+    chrono::steady_clock::time_point checkINVINCIBLEmode;
+    float invincibleDuration;
+    bool bIsInvincible;
 
 public:
 
@@ -117,8 +106,8 @@ public:
     state GetCurrentState();
     bool Timer(chrono::steady_clock::time_point timeStart,chrono::steady_clock::time_point timeCheck, float numToMillisec);
     void DeleteFromObjOnScreenList(bool shouldIRemoveObj,ListOnScreenObjectPtr index);
-    void testLista();
 
 };
+
 
 #endif //CHARMAGEDDON_1_GAMESTATE_HPP

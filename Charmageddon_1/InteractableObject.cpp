@@ -24,10 +24,24 @@ bool InteractableObject::MoveObject(Map* myMap,class Player *myPlayer,GameState 
     return true;
 }
 
-void InteractableObject::SetObjCoord(short x, short y) {
+void InteractableObject::SetObjCoord(short x, short y,int xCentralSpawn) {
     objCoord.X=x;
     objCoord.Y=y;
     SetHitbox(x);
+    setHorizontalMov(xCentralSpawn);
+}
+
+void InteractableObject::setHorizontalMov(int xCentralSpawn) {
+    srand(time(0));
+    if(objCoord.X < xCentralSpawn){
+        xMovement = -1;
+    }
+    else if(objCoord.X > xCentralSpawn){
+        xMovement = 1;
+    }
+    else{
+        xMovement = rand()%3-1; //un numero intero compreso tra -1 e 1.
+    }
 }
 
 void InteractableObject::SetHitbox(int hit1) {
@@ -60,9 +74,11 @@ short InteractableObject::getY() {
     return objCoord.Y;
 }
 
-void InteractableObject::Reset(short myYCoord){
+void InteractableObject::Reset(short myYCoord,short myXCoord){
 
     hit=false;
     onScreen=true;
     objCoord.Y=myYCoord;
+    objCoord.X = myXCoord;
+    SetHitbox(myXCoord);
 }

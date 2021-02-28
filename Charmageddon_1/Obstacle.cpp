@@ -36,7 +36,10 @@ bool Obstacle::MoveObject(Map* myMap, Player *myPlayer,GameState *myGameState){
         if(myGameState->Timer(spawn,move,millisecToMove)){
             PrintObj(myMap,clearEn);
             objCoord.Y++;
+            objCoord.X += xMovement;
+            SetHitbox(objCoord.X);
             PrintObj(myMap,enemy);
+            myMap->printMap(); //questa è qui perchè i bonus non vengono cancellati alla perfezione.
             if ((objCoord.Y >= screenHeight - 3) && (objCoord.Y  <= screenHeight)) {
                 hit = myPlayer->CheckHit(this,objCoord.Y-screenHeight+4);
                 if(hit){
@@ -60,7 +63,10 @@ void Obstacle::PrintObj(class Map *myMap, string *myObj) {
     myMap->setAndPrintStrCol(myObj,myObj->length(),objCoord.X,objCoord.Y,WHITE);
 }
 
+
 string Obstacle::GetObstacle(int index) {
     if(index>-1&&index<4)
         return enemy[index];
+    else
+        return "error";
 }

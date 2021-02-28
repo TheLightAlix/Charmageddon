@@ -4,6 +4,7 @@
 
 #include "Map.hpp"
 Map::Map() {
+    srand(time(0)); // serve per randomizzare la partita per l'erba
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&csbi);
     screenWidth = csbi.srWindow.Right;
     screenHeight = csbi.srWindow.Bottom;
@@ -77,8 +78,6 @@ void Map::printMap() {
             }
         }
     }
-    //da vedere se inserirle oppure no, dipende da implementazione
-    //printStars();
     //printGrass();
 }
 
@@ -105,6 +104,8 @@ int Map::getERR() {
 }
 //stars
 void Map::startStars() {
+    lastStarsMove = chrono::steady_clock::now();
+    millisecToMoveStars = 5000;
     starsAStarts = 1;
     starsA = "*";
     starsB = "  *";
@@ -157,19 +158,20 @@ void Map::printStars() {
 //grass
 
 void Map::startGrass() {
+    lastGrassMove =  std::chrono::steady_clock::now(); //diciamo che lo spawn lo contiamo come una move
+    milliSecToMoveGrass = 500;
     length = screenHeight-screenHeight/2.3;
     endLeftRoad = startLeftRoad + length;
     endRightRoad = startRightRoad - length;
     create = endLeftRoad-1;
     head = new bilista;
-    head->next = nullptr;
+    head->next = NULL;
     head->prev = head;
     for(int i = 0;i < length;i++){
         insert();
     }
     tail = head->prev;
     tail->next = head;
-    srand(time(0));
     random=rand()%5+1;
     createLine(0);//qui ho un create line, tanto è costruttore, metto come punteggio 0.
 }
@@ -226,7 +228,6 @@ void Map::printGrass() {
     do {
         str = tmp->line;
         setAndPrintStr(str,0,firstY,GREEN);
-        //reverse(str.begin(),str.end());
         reverseString(&str,0,str.length()-1);
         setAndPrintStr(str,xDx,firstY,GREEN);
         tmp = tmp->prev;
@@ -256,4 +257,26 @@ void Map::runGrass(int score) {
         tmp = tmp->next;
     }while(tmp != tail);//per ora rimango così, poi vediamo.
     createLine(score);
+    printGrass();
+}
+
+void Map::runDecorations(int score) {
+    move = chrono::steady_clock::now();
+    if(timer(lastGrassMove,move, milliSecToMoveGrass)){
+        runGrass(score);
+        lastGrassMove = chrono::steady_clock::now();
+    }
+
+    if(timer(lastStarsMove,move,millisecToMoveStars)){
+        printStars();
+        lastStarsMove = chrono::steady_clock::now();
+    }
+}
+
+bool Map::timer(chrono::steady_clock::time_point timeStart,chrono::steady_clock::time_point timeCheck, float numToMillisec) {
+    float elapsedTime = chrono::duration_cast<chrono::milliseconds>(timeCheck - timeStart).count();
+    if(elapsedTime >= numToMillisec)
+        return true;
+    else
+        return false;
 }

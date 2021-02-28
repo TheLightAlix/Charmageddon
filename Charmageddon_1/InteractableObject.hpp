@@ -35,7 +35,7 @@ protected:
     chrono::steady_clock::time_point spawn;
     chrono::steady_clock::time_point move;
     float millisecToMove;
-
+    int xMovement;
 
 
 public:
@@ -43,15 +43,15 @@ public:
 
     virtual void PrintObj(class Map* myMap,string myObj[]);
     virtual bool MoveObject(Map* myMap,class Player *myPlayer,class GameState *myGameState);
-    void SetObjCoord(short x,short y);
+    void SetObjCoord(short x,short y,int xCentralSpawn);
     int GetObjWidth();
     void SetHitbox(int hit1);
     int GetHitbox(int hitboxLenght);
     bool GetIsBonus();
     int GetPointsExchange();
     short getY();
-    void Reset(short myYCoord);
-
+    void Reset(short myYCoord,short myXCoord);
+    void setHorizontalMov(int xCentralSpawn);
 
 };
 

@@ -72,7 +72,7 @@ void Player::resetAndPrint(Map *map,int xCarPos) {
     map->setAndPrintStrCol(danger,7,map->getScreenWidth()/2-7,map->getScreenHeight()/2.8,RED);
     map->printMap();
     //qui c'era anche un print map prima ma in teoria non dovrebbe cambiare niente
-    printCar(map);
+    //printCar(map);
 }
 
 void Player::moveCar(Map *map) {

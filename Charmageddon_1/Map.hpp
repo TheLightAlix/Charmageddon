@@ -53,6 +53,11 @@ protected:
     int random; //crea randomicità tra le partite.
     ptrBilista head; //ultima riga d'erba(in basso)
     ptrBilista tail; //prima riga d'erba(in alto)
+    chrono::steady_clock::time_point lastGrassMove;
+    chrono::steady_clock::time_point move;
+    chrono::steady_clock::time_point lastStarsMove;
+    float milliSecToMoveGrass;
+    float millisecToMoveStars;
     //supporto
     void reverseString(string *,int,int); //serve per invertire una stri
 public:
@@ -118,7 +123,15 @@ public:
     //serve a muovere l'erba da una una riga x, alla riga x-1(quindi quella sotto)
     void runGrass(int);
 
+    //serve per far muovere tutte le decorazioni a schermo.
+    //se muovo erba ristampa anche player, in modo da non sovrascriverlo.
+    void runDecorations(int);
+
+    //serve per calcolare se è passato il tempo rappresentato in millisecondi dal float passato in input.
+    //restituisce true se passato, false altrimenti
+    bool timer(chrono::steady_clock::time_point,chrono::steady_clock::time_point,float);
 };
+
 
 
 
