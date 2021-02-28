@@ -4,6 +4,7 @@
 CMakeFiles/Charmageddon_1.dir/Bonus.cpp.obj
  C:/Users/TheLi/CLionProjects/Charmageddon_1/Bonus.cpp
  C:/Users/TheLi/CLionProjects/Charmageddon_1/Bonus.hpp
+ C:/Users/TheLi/CLionProjects/Charmageddon_1/GameState.hpp
  C:/Users/TheLi/CLionProjects/Charmageddon_1/InteractableObject.hpp
  C:/Users/TheLi/CLionProjects/Charmageddon_1/Map.hpp
  C:/Users/TheLi/CLionProjects/Charmageddon_1/Player.hpp
@@ -24,9 +25,11 @@ CMakeFiles/Charmageddon_1.dir/Map.cpp.obj
  C:/Users/TheLi/CLionProjects/Charmageddon_1/Map.cpp
  C:/Users/TheLi/CLionProjects/Charmageddon_1/Map.hpp
 CMakeFiles/Charmageddon_1.dir/Menu.cpp.obj
+ C:/Users/TheLi/CLionProjects/Charmageddon_1/Map.hpp
  C:/Users/TheLi/CLionProjects/Charmageddon_1/Menu.cpp
  C:/Users/TheLi/CLionProjects/Charmageddon_1/Menu.hpp
 CMakeFiles/Charmageddon_1.dir/Obstacle.cpp.obj
+ C:/Users/TheLi/CLionProjects/Charmageddon_1/GameState.hpp
  C:/Users/TheLi/CLionProjects/Charmageddon_1/InteractableObject.hpp
  C:/Users/TheLi/CLionProjects/Charmageddon_1/Map.hpp
  C:/Users/TheLi/CLionProjects/Charmageddon_1/Obstacle.cpp
@@ -39,4 +42,7 @@ CMakeFiles/Charmageddon_1.dir/Player.cpp.obj
  C:/Users/TheLi/CLionProjects/Charmageddon_1/Player.cpp
  C:/Users/TheLi/CLionProjects/Charmageddon_1/Player.hpp
 CMakeFiles/Charmageddon_1.dir/main.cpp.obj
+ C:/Users/TheLi/CLionProjects/Charmageddon_1/GameState.hpp
+ C:/Users/TheLi/CLionProjects/Charmageddon_1/Map.hpp
+ C:/Users/TheLi/CLionProjects/Charmageddon_1/Player.hpp
  C:/Users/TheLi/CLionProjects/Charmageddon_1/main.cpp

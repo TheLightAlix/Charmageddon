@@ -18,7 +18,8 @@ Obstacle::Obstacle(){
     objWidth=7;
     pointsExchange=-5000;
     spawn = std::chrono::steady_clock::now();
-    millisecToMove = 300;
+    millisecToMove = 500;
+    variation=100;
     hit = false;
     onScreen = true;
     isBonus= false;
@@ -27,6 +28,8 @@ Obstacle::Obstacle(){
     clearEn[2]="       ";
     clearEn[1]="       ";
     clearEn[0]="       ";
+
+    SpeedVariation();
 }
 
 bool Obstacle::MoveObject(Map* myMap, Player *myPlayer,GameState *myGameState){
@@ -43,7 +46,7 @@ bool Obstacle::MoveObject(Map* myMap, Player *myPlayer,GameState *myGameState){
             if ((objCoord.Y >= screenHeight - 3) && (objCoord.Y  <= screenHeight)) {
                 hit = myPlayer->CheckHit(this,objCoord.Y-screenHeight+4);
                 if(hit){
-                    myPlayer->handleHit(pointsExchange);
+                    myGameState->AddPoints(pointsExchange);
                     return MoveObject(myMap,myPlayer,myGameState);
                 }
                 if (objCoord.Y == screenHeight) { //se è così cancella il bouns

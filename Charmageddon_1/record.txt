@@ -1,0 +1,10 @@
+1 l 7
+2 Leo 6
+3 Osvaldo 6
+4 Ale 2
+5 Gaglioppo 2
+6 Ciccio 1
+7 poppo 1
+8 Emanuele 1
+9 Leonardo 1
+10 Zorro 1

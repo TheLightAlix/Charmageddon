@@ -52,51 +52,80 @@ class GameState{
 protected:
     class Map *myMap;
     class Player *myPlayer;
+    class Menu *MyMenu;
+
+    state currentState;
+
     ListSpawnedObjectPtr headSpawned;
     ListOnScreenObjectPtr headScreen;
     ListSpawnedObjectPtr object;
+
     bool bIdecreasedLvl;
+    bool bIsInvincible;
+
     int bonusChance;
     int generalSpawnChance;
     int points,pointsThisLvl;
+    int basePointsToIncreaseLvl;
+    int maxLevel;
     int pointPerTickVariation;
     int giftedPoints;
-    float millisecToUpdatePoints,millisecToSpawn;
+    int xSpawn;
+    int ySpawn;
+    short currentLvl;
     COORD rightSpawn;
     COORD leftSpawn;
     COORD midSpawn;
     COORD midRightSpawn;
     COORD midLeftSpawn;
-    int xSpawn;
-    int ySpawn;
-    short currentLvl;
-    int basePointsToIncreaseLvl;
+    float invincibleDuration;
+    float millisecToUpdatePoints,millisecToSpawn;
     float levelUpScaling;
-    state currentState;
-    class Menu *MyMenu;
-    int maxLevel;
-    bool Chance(int myPercent);
-    void SwitchSpawnPos(int lessThanThree);
-    bool bIsRecycling;
+
     chrono::steady_clock::time_point spawn;
     chrono::steady_clock::time_point game_time;
     chrono::steady_clock::time_point startINVINCIBLEmode;
     chrono::steady_clock::time_point checkINVINCIBLEmode;
-    float invincibleDuration;
-    bool bIsInvincible;
+
+    //Test the chance of a condition with succes prob = myPercent
+    bool Chance(int myPercent);
+
+    //Set spawn coord when an object is spawned, used in SpawnObjects
+    //precondition: input should be an int x>=0&&x<5, even tho it can handle wrong input
+    void SwitchSpawnPos(int lessThanFive);
+
+    //handle var points
+    void PointsProgression(class Player* myPlayer);
+
+    // Used to set spawn coord in relation to console screen
+    void InitializeSpwnCoord(class Map* myMap);
+
+    //New node with head insert in a double linked list
+    void NewNodeSpawnedSetting(int pointsWhenSpawned,short xObjSpawnCoord,class InteractableObject* MyObject);
+    //New node with head insert in a double linked list
+    void NewNodeScreenSetting(short xObjSpawnCoord,class InteractableObject* MyObject);
+
+    //If we didn't decrease lvl it spawns new object according to a timer and chances
+    //Else call the method RecyclingOldObjects
+    void SpawnObjects();
+
+    void LvlChange();
+    void IncreaseDifficulty();
+
 
 public:
 
     GameState();
     void SetGameState(state myState);
-    void PointsProgression(class Player* myPlayer);
+
+    //Handle points and pointsThisLevel when and interactableObject is hit
     void AddPoints(int addedPoints);
-    void LvlIncrease();
-    void IncreaseDifficulty();
-    void InitializeSpwnCoord(class Map* myMap);
-    void NewNodeSpawnedSetting(int pointsWhenSpawned,short xObjSpawnCoord,class InteractableObject* MyObject);
-    void NewNodeScreenSetting(short xObjSpawnCoord,class InteractableObject* MyObject);
-    void SpawnObjects();
+
+
+
+
+
+
     void RecyclingOldObjects();
     void MoveObjOnScreen();
     ListSpawnedObjectPtr SearchObjList(int points);
@@ -108,6 +137,7 @@ public:
     void DeleteFromObjOnScreenList(bool shouldIRemoveObj,ListOnScreenObjectPtr index);
 
 };
+
 
 
 #endif //CHARMAGEDDON_1_GAMESTATE_HPP

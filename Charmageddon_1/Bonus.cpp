@@ -10,26 +10,28 @@
 #include "GameState.hpp"
 
 
-
 Bonus::Bonus(){
 
-    fruit[3]="   (   ";
-    fruit[2]=" /   \\ ";
-    fruit[1]="(     )";
-    fruit[0]="  `\"'  ";
+fruit[3]="   (   ";
+fruit[2]=" /   \\ ";
+fruit[1]="(     )";
+fruit[0]="  `\"'  ";
 
-    objWidth=7;
-    pointsExchange=2500;
-    spawn = std::chrono::steady_clock::now();
-    millisecToMove = 300;
-    hit = false;
-    onScreen = true;
-    isBonus=true;
+objWidth=7;
+pointsExchange=2500;
+spawn = std::chrono::steady_clock::now();
+millisecToMove = 500;
+variation=100;
+hit = false;
+onScreen = true;
+isBonus=true;
 
-    clearFru[3]="       ";
-    clearFru[2]="       ";
-    clearFru[1]="       ";
-    clearFru[0]="       ";
+clearFru[3]="       ";
+clearFru[2]="       ";
+clearFru[1]="       ";
+clearFru[0]="       ";
+
+SpeedVariation();
 }
 
 void Bonus::PrintObj(class Map *myMap, string *myObj) {
@@ -52,7 +54,7 @@ bool Bonus::MoveObject(Map *myMap,Player *myPlayer,GameState *myGameState) {
             if((objCoord.Y >= screenHeight-3) && (objCoord.Y <= screenHeight)){
                 hit = myPlayer->CheckHit(this,objCoord.Y-screenHeight+4);
                 if(hit){
-                    myPlayer->handleHit(pointsExchange);
+                    myGameState->AddPoints(pointsExchange);
                     return MoveObject(myMap,myPlayer,myGameState);
                 }
                 if(objCoord.Y == screenHeight){ //se è così cancella il bonus

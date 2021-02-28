@@ -30,6 +30,7 @@ protected:
     bool isBonus;
     int hitbox[2];
     int pointsExchange;
+    int variation;
     bool hit;
     bool onScreen;
     chrono::steady_clock::time_point spawn;
@@ -52,6 +53,8 @@ public:
     short getY();
     void Reset(short myYCoord,short myXCoord);
     void setHorizontalMov(int xCentralSpawn);
+    void SetMillisecToMove(float myMillisecToMove);
+    void SpeedVariation();
 
 };
 

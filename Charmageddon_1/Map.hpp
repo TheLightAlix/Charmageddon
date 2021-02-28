@@ -58,8 +58,7 @@ protected:
     chrono::steady_clock::time_point lastStarsMove;
     float milliSecToMoveGrass;
     float millisecToMoveStars;
-    //supporto
-    void reverseString(string *,int,int); //serve per invertire una stri
+
 public:
     Map();
 
@@ -96,14 +95,18 @@ public:
     //restituisce startRightRoad
     int getSRR();
 
-    int getELF();
+    //restituisce endLefRoad
+    int getELR();
 
+    //restituisce endLeftRoad,
     int getERR();
 
     //stars
 
-    //stampa le stelle
+    //inizializza le variabili riguardanti le stelle
     void startStars();
+
+    //stampa le stelle
     void printStars();
 
     //grass
@@ -130,6 +133,10 @@ public:
     //serve per calcolare se è passato il tempo rappresentato in millisecondi dal float passato in input.
     //restituisce true se passato, false altrimenti
     bool timer(chrono::steady_clock::time_point,chrono::steady_clock::time_point,float);
+
+    //serve per invertire una stringa.
+    //i due int in input mi dicono l'inizio e la fine della stringa da invertire.
+    void reverseString(string *,int,int);
 };
 
 

@@ -17,7 +17,7 @@ using namespace std;
 
 InteractableObject::InteractableObject() {
 
-
+variation=100;
 }
 
 bool InteractableObject::MoveObject(Map* myMap,class Player *myPlayer,GameState *myGameState) {
@@ -81,4 +81,17 @@ void InteractableObject::Reset(short myYCoord,short myXCoord){
     objCoord.Y=myYCoord;
     objCoord.X = myXCoord;
     SetHitbox(myXCoord);
+}
+
+void InteractableObject::SetMillisecToMove(float myMillisecToMove){
+
+    millisecToMove=myMillisecToMove;
+}
+
+void InteractableObject::SpeedVariation(){
+
+    float actualVariation;
+    srand(time(0));
+    actualVariation= rand()%variation;
+    millisecToMove +=actualVariation;
 }

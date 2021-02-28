@@ -24,22 +24,22 @@ GameState::GameState(){
     pointsThisLvl=0;
     pointPerTickVariation=1;
     millisecToUpdatePoints=250;
-    millisecToSpawn=3000;
+    millisecToSpawn=4000;
     giftedPoints=100;
-    generalSpawnChance=30;
+    generalSpawnChance=25;
     bonusChance=10;
     currentLvl=1;
-    basePointsToIncreaseLvl=30000;
+    basePointsToIncreaseLvl=20000;
     levelUpScaling=1.f;
     currentState=MENU;
     MyMenu=new Menu();
     myMap = new Map();
-    myPlayer = new Player(myMap,1,WHITE,this);//da completare con il menu nuovo
+    myPlayer = new Player(myMap,1,WHITE);//da completare con il menu nuovo
     headSpawned=NULL;
     headScreen= NULL;
     object=NULL;
     bIdecreasedLvl=false;
-    maxLevel = 0;
+    maxLevel = 1;
     invincibleDuration = 2000; //in millisec
     bIsInvincible = false;
 }
@@ -63,26 +63,27 @@ void GameState::SetGameState(state myState) {
             spawn =  std::chrono::steady_clock::now();
             myMap = new Map();
             myMap->printMap();
-            myPlayer = new Player(myMap,MyMenu->get_scelta(),MyMenu->get_colore(),this);
-            myPlayer->printCar(myMap);
+            myPlayer = new Player(myMap,MyMenu->get_scelta(),MyMenu->get_colore());
+            myPlayer->printCar();
             InitializeSpwnCoord(myMap);
             myMap->printStars();
-            while((currentState == PLAYING) && !GetAsyncKeyState(VK_ESCAPE)){
-                myPlayer->moveCar(myMap);
+            while((currentState == PLAYING) && !GetAsyncKeyState(VK_ESCAPE) && points >= 0){
+                myPlayer->moveCar();
                 SpawnObjects();
                 MoveObjOnScreen();
                 myMap->runDecorations(points);
-                myPlayer->printCar(myMap);
+                myPlayer->printCar();
                 PointsProgression(myPlayer);
                 myMap->setCursor(0,myMap->getScreenHeight()/2.7);
                 cout<<points<<"        ";
-                LvlIncrease();
+                LvlChange();
                 myMap->setCursor(0,myMap->getScreenHeight()/2.7+1);
                 cout<<currentLvl;
             }
+            SetGameState(GAMEOVER);
             break;
         case GAMEOVER:
-            MyMenu->post_menu(MyMenu->get_user(),points);
+            MyMenu->post_menu(MyMenu->get_user(),maxLevel);
             break;
     }
 }
@@ -218,7 +219,7 @@ void GameState::DeleteFromObjOnScreenList(bool shouldIRemoveObj,ListOnScreenObje
 void GameState::PointsProgression(Player *myPlayer) {
 
     if (myPlayer->getOutOfRoad() == false) {
-        points = points + pointPerTickVariation ;
+        points += pointPerTickVariation ;
         pointsThisLvl +=  pointPerTickVariation ;
     }
     else if(bIsInvincible){
@@ -228,11 +229,8 @@ void GameState::PointsProgression(Player *myPlayer) {
         }
     }
     else{
-        points = points - pointPerTickVariation;
+        points -= pointPerTickVariation;
         pointsThisLvl -=  pointPerTickVariation;
-        if (points < 0){
-            SetGameState(GAMEOVER);
-        }
     }
 }
 
@@ -240,29 +238,32 @@ void GameState::AddPoints(int addedPoints) {
     if(!bIsInvincible){
         points +=  addedPoints;
         pointsThisLvl +=  addedPoints;
-        if (points < 0){
-            SetGameState(GAMEOVER);
-        }
+
     }
 }
 
 
-//aggiungere roba
+
 void GameState::IncreaseDifficulty() {
 
-    levelUpScaling = levelUpScaling + 0.5f;
+    levelUpScaling +=  0.5f;
+    millisecToSpawn -= 250.f;
+    millisecToSpawn=Clamp(millisecToSpawn,2500,4000);
+    generalSpawnChance +=10.f;
+    generalSpawnChance=Clamp(generalSpawnChance,25,60);
 
-    /*if (currentLvl % 2 == 0) {
-        pointPerTickVariation++;
-    }*/
+
 }
 
-void GameState::LvlIncrease() {
+void GameState::LvlChange() {
 
     if(pointsThisLvl>basePointsToIncreaseLvl*levelUpScaling){
         currentLvl++;
         pointsThisLvl=0;
-        IncreaseDifficulty();
+        if(currentLvl>maxLevel) {
+            maxLevel++;
+            IncreaseDifficulty();
+        }
     }
     else if(pointsThisLvl < 0){
         currentLvl--;
@@ -279,11 +280,11 @@ void GameState::LvlIncrease() {
 
 
 void GameState::InitializeSpwnCoord(class Map* myMap) {
-    rightSpawn.X=myMap->getERR()-9;
-    leftSpawn.X=myMap->getELF()+2;
+    rightSpawn.X=myMap->getERR()-8;
+    leftSpawn.X=myMap->getELR()+1;
     midSpawn.X=myMap->getScreenWidth()/2-3;
-    midRightSpawn.X=((myMap->getScreenWidth()/2-3)+(myMap->getERR()-9))/2;
-    midLeftSpawn.X=((myMap->getScreenWidth()/2-3)+(myMap->getELF()+2))/2;
+    midRightSpawn.X=((myMap->getScreenWidth()/2-3)+(myMap->getERR()-8))/2;
+    midLeftSpawn.X=((myMap->getScreenWidth()/2-3)+(myMap->getELR()+1))/2;
     rightSpawn.Y=myMap->getScreenHeight()/(2.3)+3;
     leftSpawn.Y=myMap->getScreenHeight()/(2.3)+3;
     midSpawn.Y=myMap->getScreenHeight()/(2.3)+3;
@@ -292,9 +293,9 @@ void GameState::InitializeSpwnCoord(class Map* myMap) {
 
 }
 
-void GameState::SwitchSpawnPos(int lessThanThree) {
+void GameState::SwitchSpawnPos(int lessThanFive) {
 
-    switch (lessThanThree) {
+    switch (lessThanFive) {
 
         case 4:
             xSpawn = leftSpawn.X;

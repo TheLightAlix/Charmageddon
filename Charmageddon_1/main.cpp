@@ -18,7 +18,7 @@ void ShowConsoleCursor(bool showFlag);
 int main() {
     ShowConsoleCursor(false);
     GameState* MyGame = new GameState();
-    MyGame->SetGameState(PLAYING);
+    MyGame->SetGameState(MENU);
 
 
     return 0;

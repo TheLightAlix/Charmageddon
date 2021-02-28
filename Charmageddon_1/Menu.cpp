@@ -105,7 +105,7 @@ ptr Menu::newscore (ptr h, int nscore, string user) {
     ptr iter;
     ofstream scrivi; //salva nel documento txt la nuova lista di record.txt aggiornata
     iter = h;
-    scrivi.open("record.txt.txt");
+    scrivi.open("..\\record.txt");
     while (iter != NULL) {
         scrivi << iter->pz << " " << iter->n << " " << iter->s << endl;
         iter = iter->next;
@@ -170,7 +170,7 @@ void Menu::post_menu (string user, int score) {
     if (record == true) {
         window();
         gotoxy(x-16, y-1);
-        cout << "CONGRATS! That's a new record.txt!!!";
+        cout << "CONGRATS! That's a new record!!!";
         window();
         gotoxy(x-19, y+6);
         system("pause");
